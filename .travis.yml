@@ -11,6 +11,7 @@ after_sucess: |
   haxe doc.hxml &&
   mv -rf doc /tmp/doc &&
   git checkout -b gh-pages &&
+  rm -rf ./* &&
   mv -rf /tmp/doc/* . &&
   rm -rf /tmp/doc
   git commit -a -m "Update documentation"
