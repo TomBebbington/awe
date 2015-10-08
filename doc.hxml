@@ -3,5 +3,3 @@
 -xml doc/doc.xml
 --no-output
 --macro include('awe', true, null, ['src'])
---next
--cmd haxelib run dox -i doc/doc.xml -o doc --title "Awe, the easy and fast ECS"
