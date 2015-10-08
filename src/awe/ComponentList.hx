@@ -5,10 +5,15 @@ import haxe.io.Bytes;
 
 interface IComponentList<T: Component> {
 	public var capacity(get, never): Int;
+	/** How many components this list contains. **/
 	public var length(default, null): Int;
+	/** Retrieve the component corresponding associated to the ID. **/
 	public function get(id: Int): T;
+	/** Add the component to this list with the given ID. **/
 	public function add(id: Int, value: T): Void;
+	/** Remove the component corresponding to the ID given. **/
 	public function remove(id: Int): Void;
+	/** Iterate through the items in this list. **/
 	public function iterator(): ComponentListIterator<T>;
 }
 
