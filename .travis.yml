@@ -4,18 +4,3 @@ haxe:
 
 hxml:
   - build.hxml
-
-build:
-  - haxe build.hxml
-
-after_sucess: |
-  [ $TRAVIS_BRANCH = master ] &&
-  [ $TRAVIS_PULL_REQUEST = false ] &&
-  haxe doc.hxml &&
-  mv -rf doc /tmp/doc &&
-  git checkout -b gh-pages &&
-  rm -rf ./* &&
-  mv -rf /tmp/doc/* . &&
-  rm -rf /tmp/doc
-  git commit -a -m "Update documentation"
-  git push -fq https://${GH_TOKEN}@github.com/TomBebbington/awe.git gh-pages
