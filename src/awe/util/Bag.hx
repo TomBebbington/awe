@@ -52,7 +52,7 @@ abstract Bag<T>(BagData<T>) {
 		var data = Type.createEmptyInstance(BagData);
 		untyped data.data = vector;
 		untyped data.length = vector.length;
-		return data;
+		return cast data;
 	}
 	@:from public static inline function fromArray<T>(array: Array<T>)
 		return fromVector(Vector.fromArrayCopy(array));
