@@ -1,0 +1,13 @@
+{
+	"name": "awe",
+	"url" : "https://github.com/TomBebbington/awe/",
+	"license": "BSD",
+	"tags": ["cross", "game", "utility", "ecs", "signal"],
+	"description": "Powerful, fast and simple entity component system based on Artemis",
+	"version": "1.0.0",
+	"releasenote": "Initial release, everything is working correctly.",
+	"contributors": ["Tom Bebbington"],
+	"dependencies": {
+		"tink_macro": ""
+	}
+}
