@@ -32,14 +32,14 @@ abstract Entity(Int) {
 		var ty = Context.typeof(value);
 		var cty = ComponentType.get(ty);
 		var list = wrapGet(engine, ty, cty);
-		return macro $list.add($self.id, $value);
+		return macro $list.add($self, $value);
 	}
 
 	public macro function get<T>(self: ExprOf<Entity>, engine: ExprOf<Engine>, cl: ExprOf<Class<T>>): ExprOf<Null<T>> {
 		var ty = MacroTools.resolveTypeLiteral(cl);
 		var cty = ComponentType.get(ty);
 		var list = wrapGet(engine, ty, cty);
-		return macro $list.get($self.id);
+		return macro $list.get($self);
 	}
 
 	/** Returns the string representation of this data. */

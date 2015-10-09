@@ -10,6 +10,15 @@ import haxe.macro.Expr;
 import awe.util.MacroTools;
 /**
 	Blueprints for fast `Entity` construction.
+
+	This can be constructed by using the `Archetype.build(_)` macro.
+	Using this, you can build an archetype by calling it with the
+	components you want the `Entity` to have.
+
+	### Example
+	```haxe
+	Archetype.build(Position, Velocity);
+	```
 **/
 class Archetype {
 	var types: Array<ComponentType>;

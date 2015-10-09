@@ -3,17 +3,32 @@ package awe;
 import haxe.ds.Vector;
 import haxe.io.Bytes;
 
+/** Represents a list of components. **/
 interface IComponentList<T: Component> {
+	/** How many components this list can hold without re-allocating. **/
 	public var capacity(get, never): Int;
 	/** How many components this list contains. **/
 	public var length(default, null): Int;
-	/** Retrieve the component corresponding associated to the ID. **/
-	public function get(id: Int): T;
-	/** Add the component to this list with the given ID. **/
-	public function add(id: Int, value: T): Void;
-	/** Remove the component corresponding to the ID given. **/
+	/**
+		Retrieve the component corresponding associated to the ID.
+		@param id The `Entity` to retrieve the component for.
+		@return The component.
+	**/
+	public function get(id: Entity): T;
+	/**
+		Add the component to this list with the given ID.
+		@param id The `Entity` to add a component to.
+	**/
+	public function add(id: Entity, value: T): Void;
+	/**
+		Remove the component corresponding to the ID given.
+		@param id The `Entity` to remove from this list.
+	**/
 	public function remove(id: Int): Void;
-	/** Iterate through the items in this list. **/
+	/**
+		Iterate through the items in this list.
+		@return The iterator for this list.
+	**/
 	public function iterator(): ComponentListIterator<T>;
 }
 
@@ -36,17 +51,17 @@ class ComponentList<T: Component> implements IComponentList<T> {
 	}
 
 	@:keep
-	public inline function get(id: Int): T
-		return list.get(id);
+	public inline function get(entity: Entity): T
+		return list.get(entity.id);
 
-	public function add(id: Int, value: T): Void {
-		if(id >= list.length) {
+	public function add(entity: Entity, value: T): Void {
+		if(entity.id >= list.length) {
 			var vector = new Vector(capacity << 1);
 			Vector.blit(list, 0, vector, 0, list.length);
 			list = vector;
 		}
-		list.set(id, value);
-		length = Std.int(Math.max(length, id + 1));
+		list.set(entity.id, value);
+		length = Std.int(Math.max(length, entity.id + 1));
 	}
 	public inline function remove(id: Int): Void {
 		list[id] = null;
@@ -58,10 +73,10 @@ class ComponentList<T: Component> implements IComponentList<T> {
 
 @:generic
 class ComponentListItem<T: Component> {
-	public var index(default, null): Int;
+	public var index(default, null): Entity;
 	public var component(default, null): T;
 
-	public function new(index: Int, component: T) {
+	public function new(index: Entity, component: T) {
 		this.index = index;
 		this.component = component;
 	}
@@ -71,7 +86,7 @@ class ComponentListItem<T: Component> {
 @:generic
 class ComponentListIterator<T: Component> {
 	var list: IComponentList<T>;
-	var index = 0;
+	var index: Int = 0;
 	public function new(list: IComponentList<T>) {
 		this.list = list;
 	}
@@ -79,9 +94,9 @@ class ComponentListIterator<T: Component> {
 		return index < list.length;
 
 	public function next():ComponentListItem<T> {
-		while(list.get(index) == null)
+		while(list.get(cast index) == null)
 			index++;
-		return new ComponentListItem(index + 1, list.get(index++));
+		return new ComponentListItem(cast (index + 1, Entity), list.get(cast index++));
 	}
 }
 
@@ -107,20 +122,20 @@ class PackedComponentList<T: Component> implements IComponentList<T> {
 	}
 
 	@:keep
-	public inline function get(id: Int): T {
-		untyped buffer.__offset = id * size;
-		return id >= length ? null : buffer;
+	public inline function get(entity: Entity): T {
+		untyped buffer.__offset = entity.id * size;
+		return entity.id >= length ? null : buffer;
 	}
 
-	public function add(id: Int, value: T): Void {
-		if(id * size > capacity) {
+	public function add(entity: Entity, value: T): Void {
+		if(entity.id * size > capacity) {
 			var nbytes = Bytes.alloc(capacity << 1);
 			nbytes.blit(0, bytes, 0, bytes.length);
 			bytes = nbytes;
 		}
-		bytes.blit(id * size, untyped value.__bytes, 0, size);
+		bytes.blit(entity.id * size, untyped value.__bytes, 0, size);
 		untyped value.__bytes = bytes;
-		length = Std.int(Math.max(length, id + 1));
+		length = Std.int(Math.max(length, entity.id + 1));
 	}
 	public inline function remove(id: Int): Void
 		bytes.fill(id * size, size, 0);

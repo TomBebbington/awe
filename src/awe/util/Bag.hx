@@ -2,6 +2,11 @@ package awe.util;
 
 import haxe.ds.Vector;
 
+/**
+	A fast collection type similar to `Array` in usage but does not preserve order
+	of its entities. It is faster to add to than an `Array` because it is actually
+	represented internally as a `haxe.ds.Vector` with automatic resizing.
+**/
 abstract Bag<T>(BagData<T>) {
 	/** How many items are contained in this bag. **/
 	public var length(get, never): Int;
