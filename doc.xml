@@ -1112,22 +1112,32 @@
 	<class path="awe.Archetype" params="" file="src/awe/Archetype.hx">
 		<types><c path="Array"><x path="awe.ComponentType"/></c></types>
 		<cid><x path="Int"/></cid>
-		<create public="1" set="method" line="19"><f a="engine">
+		<create public="1" set="method" line="26"><f a="engine">
 	<c path="awe.Engine"/>
 	<x path="awe.Entity"/>
 </f></create>
-		<new public="1" set="method" line="15"><f a="cid:types">
-	<x path="Int"/>
-	<c path="Array"><x path="awe.ComponentType"/></c>
-	<x path="Void"/>
-</f></new>
+		<new public="1" set="method" line="22">
+			<f a="cid:types">
+				<x path="Int"/>
+				<c path="Array"><x path="awe.ComponentType"/></c>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Create a new Archetype.
+		@param cid The component ID.
+		@param types The component types to construct and attach.</haxe_doc>
+		</new>
+		<haxe_doc>Blueprints for fast `Entity` construction.</haxe_doc>
 	</class>
 	<typedef path="awe.MType" params="" file="src/awe/Component.hx" module="awe.Component"><e path="haxe.macro.Type"/></typedef>
 	<class path="awe.Component" params="" file="src/awe/Component.hx" interface="1">
 		<getType public="1" set="method">
 			<f a=""><x path="awe.ComponentType"/></f>
-			<haxe_doc>Retrieve the component type for this component.</haxe_doc>
+			<haxe_doc>Retrieve the component type for this component. This can be used to
+		determine how the component is stored. 
+		@return The component type.</haxe_doc>
 		</getType>
+		<haxe_doc>Raw data to be attached to an `Entity`. Should contain absolutely no logic
+	and should be serializable. This will be automatically pooled or packed.</haxe_doc>
 		<meta>
 			<m n=":autoBuild"><e>awe.Component.AutoComponent.from()</e></m>
 			<m n=":keepSub"/>
@@ -1446,40 +1456,86 @@
 		<allSet set="null"><x path="awe.util.BitSet"/></allSet>
 		<oneSet set="null"><x path="awe.util.BitSet"/></oneSet>
 		<noneSet set="null"><x path="awe.util.BitSet"/></noneSet>
-		<matches public="1" get="inline" set="null" line="54">
+		<matches public="1" get="inline" set="null" line="83">
 			<f a="components">
 				<x path="awe.util.BitSet"/>
 				<x path="Bool"/>
 			</f>
-			<haxe_doc>Returns true if this Filter matches the BitSet given.</haxe_doc>
+			<haxe_doc>Returns true if the `components` set fulfills this filter.
+		@param components The `BitSet` of components to check against.
+		@return If the `components` set fulfills this filter.</haxe_doc>
 		</matches>
-		<new public="1" set="method" line="18"><f a="allSet:oneSet:noneSet">
+		<new public="1" set="method" line="40"><f a="allSet:oneSet:noneSet">
 	<x path="awe.util.BitSet"/>
 	<x path="awe.util.BitSet"/>
 	<x path="awe.util.BitSet"/>
 	<x path="Void"/>
 </f></new>
+		<haxe_doc><![CDATA[A filter for matching entities' components against.
+
+	This can be constructed by using the `Filter.build(_)` macro.
+	Using this, you can build a filter from a binary operation representing
+	the combination of types this will expect.
+
+	## Supported Operations
+
+	### All of...
+	```haxe
+	Filter.build(Position & Velocity);
+	```
+	### One of...
+	```haxe
+	Filter.build(Position | Velocity);
+	```
+	### None of...
+	```haxe
+	Filter.build(!Position);
+	```]]></haxe_doc>
 	</class>
 	<class path="awe.System" params="" file="src/awe/System.hx">
-		<engine public="1" set="null"><c path="awe.Engine"/></engine>
-		<enabled public="1"><x path="Bool"/></enabled>
-		<shouldProcess public="1" set="method" line="10"><f a=""><x path="Bool"/></f></shouldProcess>
-		<inititialize public="1" set="method" line="12"><f a="engine">
-	<c path="awe.Engine"/>
-	<x path="Void"/>
-</f></inititialize>
-		<update public="1" set="method" line="15"><f a="delta">
-	<x path="Float"/>
-	<x path="Void"/>
-</f></update>
-		<new public="1" set="method" line="9"><f a=""><x path="Void"/></f></new>
+		<engine public="1" set="null">
+			<c path="awe.Engine"/>
+			<haxe_doc>The engine that contains this sytem.</haxe_doc>
+		</engine>
+		<enabled public="1">
+			<x path="Bool"/>
+			<haxe_doc>If this system is enabled or not.</haxe_doc>
+		</enabled>
+		<shouldProcess public="1" set="method" line="20">
+			<f a=""><x path="Bool"/></f>
+			<haxe_doc>Check if this system should be processed.
+		@return If this should be processed or not.</haxe_doc>
+		</shouldProcess>
+		<inititialize public="1" set="method" line="27">
+			<f a="engine">
+				<c path="awe.Engine"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Initializes this system in the `Engine`.
+		@param engine The `Engine` to initialize this in.</haxe_doc>
+		</inititialize>
+		<update public="1" set="method" line="34">
+			<f a="delta">
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Updates this system.
+		@param delta The change in time in seconds.</haxe_doc>
+		</update>
+		<new public="1" set="method" line="12">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>Create a new, empty system.</haxe_doc>
+		</new>
 		<haxe_doc>A basic system.</haxe_doc>
 	</class>
 	<class path="awe.EntitySystem" params="" file="src/awe/System.hx" module="awe.System">
 		<extends path="awe.System"/>
-		<filter public="1" set="null"><c path="awe.Filter"/></filter>
+		<filter public="1" set="null">
+			<c path="awe.Filter"/>
+			<haxe_doc>The filter to check an entity against before adding to this system.</haxe_doc>
+		</filter>
 		<matchers public="1" set="null"><x path="awe.util.Bag"><x path="Int"/></x></matchers>
-		<new public="1" set="method" line="21"><f a="filter">
+		<new public="1" set="method" line="41"><f a="filter">
 	<c path="awe.Filter"/>
 	<x path="Void"/>
 </f></new>
@@ -1495,64 +1551,76 @@
 	<length public="1" get="accessor" set="null" static="1">
 		<x path="Int"/>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>How many items are contained in this bag.</haxe_doc>
 	</length>
 	<capacity public="1" get="accessor" set="null" static="1">
 		<x path="Int"/>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>How many items can be stored in this bag without re-allocating.</haxe_doc>
 	</capacity>
-	<_new public="1" get="inline" set="null" line="9" static="1">
+	<_new public="1" get="inline" set="null" line="15" static="1">
 		<f a="?capacity">
 			<x path="Int"/>
 			<x path="awe.util.Bag"><c path="awe.util.Bag.T"/></x>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Construct a new Bag with the capacity given or 16.
+		@param capacity How many items can be stored in this bag without re-allocating.</haxe_doc>
 	</_new>
-	<get_capacity get="inline" set="null" line="12" static="1">
+	<get_capacity get="inline" set="null" line="18" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</get_capacity>
-	<get_length get="inline" set="null" line="15" static="1">
+	<get_length get="inline" set="null" line="21" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</get_length>
-	<clear public="1" get="inline" set="null" line="18" static="1">
+	<clear public="1" get="inline" set="null" line="25" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Void"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Clear this of items.</haxe_doc>
 	</clear>
-	<contains public="1" get="inline" set="null" line="21" static="1">
+	<contains public="1" get="inline" set="null" line="33" static="1">
 		<f a="this:value">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<c path="awe.util.Bag.T"/>
 			<x path="Bool"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Check if this bag contains the value given.
+		@param value The value to check is contained.
+		@return If this value is contained in this bag.</haxe_doc>
 	</contains>
-	<add public="1" get="inline" set="null" line="24" static="1">
+	<add public="1" get="inline" set="null" line="40" static="1">
 		<f a="this:item">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<c path="awe.util.Bag.T"/>
 			<x path="Void"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Add the item to this bag.
+		@param item The item to add.</haxe_doc>
 	</add>
-	<ensureCapacity public="1" get="inline" set="null" line="27" static="1">
+	<ensureCapacity public="1" get="inline" set="null" line="47" static="1">
 		<f a="this:capacity">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
 			<x path="Void"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Ensure that this bag can store up to `capacity` without re-allocating.
+		@param capacity The capacity to make sure is allocated.</haxe_doc>
 	</ensureCapacity>
-	<get public="1" get="inline" set="null" line="30" static="1">
+	<get public="1" get="inline" set="null" line="51" static="1">
 		<f a="this:index">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
@@ -1562,8 +1630,9 @@
 			<m n=":impl"/>
 			<m n=":arrayAccess"/>
 		</meta>
+		<haxe_doc>Retrieve the `index`th item from this bag.</haxe_doc>
 	</get>
-	<set public="1" get="inline" set="null" line="33" static="1">
+	<set public="1" get="inline" set="null" line="55" static="1">
 		<f a="this:index:value">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
@@ -1574,30 +1643,38 @@
 			<m n=":impl"/>
 			<m n=":arrayAccess"/>
 		</meta>
+		<haxe_doc>Set the `index`th item in this bag to `value`.</haxe_doc>
 	</set>
-	<iterator public="1" get="inline" set="null" line="36" static="1">
+	<iterator public="1" get="inline" set="null" line="62" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<c path="awe.util.BagIterator"><c path="awe.util.Bag.T"/></c>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Iterate through this bag's contents.
+		@return The iterator.</haxe_doc>
 	</iterator>
-	<remove public="1" get="inline" set="null" line="39" static="1">
+	<remove public="1" get="inline" set="null" line="70" static="1">
 		<f a="this:item">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<c path="awe.util.Bag.T"/>
 			<x path="Bool"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Remove `item` from this bag.
+		@param item The item to try to remove.
+		@return If the item could be found and removed.</haxe_doc>
 	</remove>
-	<removeLast public="1" get="inline" set="null" line="42" static="1">
+	<removeLast public="1" get="inline" set="null" line="77" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<t path="Null"><c path="awe.util.Bag.T"/></t>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Remove the last item from this bag.
+		@return The ex-last item.</haxe_doc>
 	</removeLast>
-	<blit public="1" get="inline" set="null" line="48" static="1">
+	<blit public="1" get="inline" set="null" line="83" static="1">
 		<f a="this:srcPos:dest:destPos:len">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<x path="Int"/>
@@ -1609,7 +1686,7 @@
 		<meta><m n=":impl"/></meta>
 		<haxe_doc>Copy the elements from `srcPos` terminating at `srcPos + len` to `dest` at the offset `destPos`</haxe_doc>
 	</blit>
-	<fromVector public="1" params="T" get="inline" set="null" line="51" static="1">
+	<fromVector public="1" params="T" get="inline" set="null" line="86" static="1">
 		<f a="vector">
 			<x path="haxe.ds.Vector"><c path="fromVector.T"/></x>
 			<x path="awe.util.Bag"><unknown/></x>
@@ -1619,14 +1696,14 @@
 			<m n=":from"/>
 		</meta>
 	</fromVector>
-	<fromArray public="1" params="T" get="inline" set="null" line="57" static="1">
+	<fromArray public="1" params="T" get="inline" set="null" line="92" static="1">
 		<f a="array">
 			<c path="Array"><c path="fromArray.T"/></c>
 			<x path="awe.util.Bag"><unknown/></x>
 		</f>
 		<meta><m n=":from"/></meta>
 	</fromArray>
-	<toArray public="1" get="inline" set="null" line="60" static="1">
+	<toArray public="1" get="inline" set="null" line="95" static="1">
 		<f a="this">
 			<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 			<c path="Array"><c path="awe.util.Bag.T"/></c>
@@ -1642,64 +1719,76 @@
 		<length public="1" get="accessor" set="null" static="1">
 			<x path="Int"/>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>How many items are contained in this bag.</haxe_doc>
 		</length>
 		<capacity public="1" get="accessor" set="null" static="1">
 			<x path="Int"/>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>How many items can be stored in this bag without re-allocating.</haxe_doc>
 		</capacity>
-		<_new public="1" get="inline" set="null" line="9" static="1">
+		<_new public="1" get="inline" set="null" line="15" static="1">
 			<f a="?capacity">
 				<x path="Int"/>
 				<x path="awe.util.Bag"><c path="awe.util.Bag.T"/></x>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Construct a new Bag with the capacity given or 16.
+		@param capacity How many items can be stored in this bag without re-allocating.</haxe_doc>
 		</_new>
-		<get_capacity get="inline" set="null" line="12" static="1">
+		<get_capacity get="inline" set="null" line="18" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</get_capacity>
-		<get_length get="inline" set="null" line="15" static="1">
+		<get_length get="inline" set="null" line="21" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</get_length>
-		<clear public="1" get="inline" set="null" line="18" static="1">
+		<clear public="1" get="inline" set="null" line="25" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Clear this of items.</haxe_doc>
 		</clear>
-		<contains public="1" get="inline" set="null" line="21" static="1">
+		<contains public="1" get="inline" set="null" line="33" static="1">
 			<f a="this:value">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<c path="awe.util.Bag.T"/>
 				<x path="Bool"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Check if this bag contains the value given.
+		@param value The value to check is contained.
+		@return If this value is contained in this bag.</haxe_doc>
 		</contains>
-		<add public="1" get="inline" set="null" line="24" static="1">
+		<add public="1" get="inline" set="null" line="40" static="1">
 			<f a="this:item">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<c path="awe.util.Bag.T"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Add the item to this bag.
+		@param item The item to add.</haxe_doc>
 		</add>
-		<ensureCapacity public="1" get="inline" set="null" line="27" static="1">
+		<ensureCapacity public="1" get="inline" set="null" line="47" static="1">
 			<f a="this:capacity">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Ensure that this bag can store up to `capacity` without re-allocating.
+		@param capacity The capacity to make sure is allocated.</haxe_doc>
 		</ensureCapacity>
-		<get public="1" get="inline" set="null" line="30" static="1">
+		<get public="1" get="inline" set="null" line="51" static="1">
 			<f a="this:index">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
@@ -1709,8 +1798,9 @@
 				<m n=":impl"/>
 				<m n=":arrayAccess"/>
 			</meta>
+			<haxe_doc>Retrieve the `index`th item from this bag.</haxe_doc>
 		</get>
-		<set public="1" get="inline" set="null" line="33" static="1">
+		<set public="1" get="inline" set="null" line="55" static="1">
 			<f a="this:index:value">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
@@ -1721,30 +1811,38 @@
 				<m n=":impl"/>
 				<m n=":arrayAccess"/>
 			</meta>
+			<haxe_doc>Set the `index`th item in this bag to `value`.</haxe_doc>
 		</set>
-		<iterator public="1" get="inline" set="null" line="36" static="1">
+		<iterator public="1" get="inline" set="null" line="62" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<c path="awe.util.BagIterator"><c path="awe.util.Bag.T"/></c>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Iterate through this bag's contents.
+		@return The iterator.</haxe_doc>
 		</iterator>
-		<remove public="1" get="inline" set="null" line="39" static="1">
+		<remove public="1" get="inline" set="null" line="70" static="1">
 			<f a="this:item">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<c path="awe.util.Bag.T"/>
 				<x path="Bool"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Remove `item` from this bag.
+		@param item The item to try to remove.
+		@return If the item could be found and removed.</haxe_doc>
 		</remove>
-		<removeLast public="1" get="inline" set="null" line="42" static="1">
+		<removeLast public="1" get="inline" set="null" line="77" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<t path="Null"><c path="awe.util.Bag.T"/></t>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Remove the last item from this bag.
+		@return The ex-last item.</haxe_doc>
 		</removeLast>
-		<blit public="1" get="inline" set="null" line="48" static="1">
+		<blit public="1" get="inline" set="null" line="83" static="1">
 			<f a="this:srcPos:dest:destPos:len">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<x path="Int"/>
@@ -1756,7 +1854,7 @@
 			<meta><m n=":impl"/></meta>
 			<haxe_doc>Copy the elements from `srcPos` terminating at `srcPos + len` to `dest` at the offset `destPos`</haxe_doc>
 		</blit>
-		<fromVector public="1" params="T" get="inline" set="null" line="51" static="1">
+		<fromVector public="1" params="T" get="inline" set="null" line="86" static="1">
 			<f a="vector">
 				<x path="haxe.ds.Vector"><c path="fromVector.T"/></x>
 				<x path="awe.util.Bag"><unknown/></x>
@@ -1766,14 +1864,14 @@
 				<m n=":from"/>
 			</meta>
 		</fromVector>
-		<fromArray public="1" params="T" get="inline" set="null" line="57" static="1">
+		<fromArray public="1" params="T" get="inline" set="null" line="92" static="1">
 			<f a="array">
 				<c path="Array"><c path="fromArray.T"/></c>
 				<x path="awe.util.Bag"><unknown/></x>
 			</f>
 			<meta><m n=":from"/></meta>
 		</fromArray>
-		<toArray public="1" get="inline" set="null" line="60" static="1">
+		<toArray public="1" get="inline" set="null" line="95" static="1">
 			<f a="this">
 				<c path="awe.util.BagData"><c path="awe.util.Bag.T"/></c>
 				<c path="Array"><c path="awe.util.Bag.T"/></c>
@@ -1787,50 +1885,46 @@
 	<class path="awe.util.BagData" params="T" file="src/awe/util/Bag.hx" module="awe.util.Bag">
 		<data public="1" set="null"><x path="haxe.ds.Vector"><c path="awe.util.BagData.T"/></x></data>
 		<length public="1" set="null"><x path="Int"/></length>
-		<ensureCapacity public="1" set="method" line="73"><f a="capacity">
+		<ensureCapacity public="1" set="method" line="106"><f a="capacity">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></ensureCapacity>
-		<clear public="1" set="method" line="80"><f a=""><x path="Void"/></f></clear>
-		<add public="1" get="inline" set="null" line="86"><f a="item">
+		<clear public="1" set="method" line="113"><f a=""><x path="Void"/></f></clear>
+		<add public="1" get="inline" set="null" line="119"><f a="item">
 	<c path="awe.util.BagData.T"/>
 	<x path="Void"/>
 </f></add>
-		<set public="1" get="inline" set="null" line="91"><f a="index:item">
+		<set public="1" get="inline" set="null" line="124"><f a="index:item">
 	<x path="Int"/>
 	<c path="awe.util.BagData.T"/>
 	<c path="awe.util.BagData.T"/>
 </f></set>
-		<get public="1" get="inline" set="null" line="97"><f a="index">
+		<get public="1" get="inline" set="null" line="130"><f a="index">
 	<x path="Int"/>
 	<c path="awe.util.BagData.T"/>
 </f></get>
-		<removeLast public="1" set="method" line="100"><f a=""><t path="Null"><c path="awe.util.BagData.T"/></t></f></removeLast>
-		<contains public="1" set="method" line="110"><f a="value">
+		<removeLast public="1" set="method" line="133"><f a=""><t path="Null"><c path="awe.util.BagData.T"/></t></f></removeLast>
+		<contains public="1" set="method" line="143"><f a="value">
 	<c path="awe.util.BagData.T"/>
 	<x path="Bool"/>
 </f></contains>
-		<remove public="1" set="method" line="117"><f a="value">
+		<remove public="1" set="method" line="150"><f a="value">
 	<c path="awe.util.BagData.T"/>
 	<x path="Bool"/>
 </f></remove>
-		<toString public="1" set="method" line="125"><f a=""><c path="String"/></f></toString>
-		<blit public="1" get="inline" set="null" line="138">
-			<f a="srcPos:dest:destPos:len">
-				<x path="Int"/>
-				<c path="awe.util.BagData"><c path="awe.util.BagData.T"/></c>
-				<x path="Int"/>
-				<x path="Int"/>
-				<x path="Void"/>
-			</f>
-			<haxe_doc>Copy the elements from `srcPos` terminating at `srcPos + len` to `dest` at the offset `destPos`</haxe_doc>
-		</blit>
-		<iterator public="1" get="inline" set="null" line="141"><f a=""><c path="awe.util.BagIterator"><c path="awe.util.BagData.T"/></c></f></iterator>
-		<new public="1" set="method" line="69"><f a="capacity">
+		<toString public="1" set="method" line="158"><f a=""><c path="String"/></f></toString>
+		<blit public="1" get="inline" set="null" line="168"><f a="srcPos:dest:destPos:len">
+	<x path="Int"/>
+	<c path="awe.util.BagData"><c path="awe.util.BagData.T"/></c>
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Void"/>
+</f></blit>
+		<iterator public="1" get="inline" set="null" line="171"><f a=""><c path="awe.util.BagIterator"><c path="awe.util.BagData.T"/></c></f></iterator>
+		<new public="1" set="method" line="102"><f a="capacity">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></new>
-		<haxe_doc>A Bag.</haxe_doc>
 		<meta>
 			<m n=":directlyUsed"/>
 			<m n=":generic"/>
@@ -1839,9 +1933,9 @@
 	<class path="awe.util.BagIterator" params="T" file="src/awe/util/Bag.hx" module="awe.util.Bag">
 		<bag><c path="awe.util.BagData"><c path="awe.util.BagIterator.T"/></c></bag>
 		<index><x path="Int"/></index>
-		<hasNext public="1" get="inline" set="null" line="153"><f a=""><x path="Bool"/></f></hasNext>
-		<next public="1" get="inline" set="null" line="156"><f a=""><c path="awe.util.BagIterator.T"/></f></next>
-		<new public="1" get="inline" set="null" line="148"><f a="bag">
+		<hasNext public="1" get="inline" set="null" line="183"><f a=""><x path="Bool"/></f></hasNext>
+		<next public="1" get="inline" set="null" line="186"><f a=""><c path="awe.util.BagIterator.T"/></f></next>
+		<new public="1" get="inline" set="null" line="178"><f a="bag">
 	<c path="awe.util.BagData"><c path="awe.util.BagIterator.T"/></c>
 	<x path="Void"/>
 </f></new>
