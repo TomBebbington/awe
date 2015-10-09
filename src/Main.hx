@@ -1,4 +1,5 @@
 import awe.Component;
+import awe.ComponentType;
 import awe.Engine;
 import awe.Entity;
 import awe.Archetype;
@@ -13,8 +14,8 @@ enum Direction {
 }
 
 class Position implements Component {
-	var x: Float;
-	var y: Float;
+	public var x: Float;
+	public var y: Float;
 	public function new(x: Float, y:Float) {
 		this.x = x;
 		this.y = y;
@@ -30,8 +31,8 @@ class Position implements Component {
 		return Std.string(x) + ", " + Std.string(y);
 }
 class Velocity implements Component {
-	var x: Float;
-	var y: Float;
+	public var x: Float;
+	public var y: Float;
 	public function new(x: Float, y:Float) {
 		this.x = x;
 		this.y = y;
@@ -57,15 +58,18 @@ class MovementSystem extends EntitySystem {
 
 class Main {
 	static function main() {
-		var setup = new EngineSetup();
-		setup.registerComponent(Position);
-		setup.registerComponent(Velocity);
-		setup.setSystem(new MovementSystem());
-		var engine = new Engine(setup);
+		var engine = Engine.build({
+			components: [Position, Velocity],
+			systems: [new MovementSystem()]
+		});
 		var entity: Entity = cast 0;
 		entity.add(engine, new Position(3, 4));
+		var pos = ComponentType.of(Position);
+		var positions = engine.components.get(pos);
+		var serial = positions.serialize();
+		var pos: Position = positions.get(entity);
+		pos.x = 0;
 		trace(entity.get(engine, Position));
-		trace(entity.get(engine, Velocity));
 		engine.update(3);
 	}
 }

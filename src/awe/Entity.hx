@@ -28,14 +28,14 @@ abstract Entity(Int) {
 	}
 	#end
 
-	public macro function add<T>(self: ExprOf<Entity>, engine: ExprOf<Engine>, value: ExprOf<T>): Expr {
+	public macro function add<T: Component>(self: ExprOf<Entity>, engine: ExprOf<Engine>, value: ExprOf<T>): ExprOf<Void> {
 		var ty = Context.typeof(value);
 		var cty = ComponentType.get(ty);
 		var list = wrapGet(engine, ty, cty);
 		return macro $list.add($self, $value);
 	}
 
-	public macro function get<T>(self: ExprOf<Entity>, engine: ExprOf<Engine>, cl: ExprOf<Class<T>>): ExprOf<Null<T>> {
+	public macro function get<T: Component>(self: ExprOf<Entity>, engine: ExprOf<Engine>, cl: ExprOf<Class<T>>): ExprOf<Null<T>> {
 		var ty = MacroTools.resolveTypeLiteral(cl);
 		var cty = ComponentType.get(ty);
 		var list = wrapGet(engine, ty, cty);

@@ -94,7 +94,7 @@ abstract Bag<T>(BagData<T>) {
 		untyped data.length = vector.length;
 		return cast data;
 	}
-	@:from public static inline function fromArray<T>(array: Array<T>)
+	@:from public static function fromArray<T>(array: Array<T>)
 		return fromVector(Vector.fromArrayCopy(array));
 
 	@:to public inline function toArray(): Array<T>

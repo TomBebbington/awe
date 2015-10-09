@@ -31,6 +31,9 @@ abstract ComponentType(Int) from Int to Int {
 
 	#end
 
+	public static macro function of(ty: Expr): ExprOf<ComponentType>
+		return Context.makeExpr(get(ty.resolveTypeLiteral()), Context.currentPos());
+
 
 	static inline var PACKED_FLAG = 1 << 31;
 	public inline function isPacked():Bool

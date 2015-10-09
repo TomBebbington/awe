@@ -11,6 +11,14 @@ using Lambda;
 /** Some handy macro tools. **/
 class MacroTools {
 	#if macro
+	public static function getArray(value: Expr): Array<Expr> {
+		return switch(value.expr) {
+			case EArrayDecl(values): values;
+			default:
+				Context.error("Expected array declaration", value.pos);
+				null;
+		}
+	}
 	public static function resolveTypeLiteral(literal: Expr):Type
 		return Context.getType(literal.toString());
 
