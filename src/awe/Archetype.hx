@@ -8,10 +8,17 @@ using haxe.macro.TypeTools;
 import haxe.macro.Expr;
 #end
 import awe.util.MacroTools;
-
+/**
+	Blueprints for fast `Entity` construction.
+**/
 class Archetype {
 	var types: Array<ComponentType>;
 	var cid: Int;
+	/**
+		Create a new Archetype.
+		@param cid The component ID.
+		@param types The component types to construct and attach.
+	**/
 	public function new(cid: Int, types: Array<ComponentType>) {
 		this.cid = cid;
 		this.types = types;
@@ -19,6 +26,9 @@ class Archetype {
 	public function create(engine: Engine): Entity {
 		return cast 0;
 	}
+	/**
+		Constructs an `Archetype` from some component types.
+	**/
 	public static macro function build(types: Array<ExprOf<Class<Component>>>): ExprOf<Archetype> {
 		var newTypes = [];
 		var cid = 0;

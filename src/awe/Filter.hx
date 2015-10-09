@@ -11,6 +11,28 @@ using haxe.macro.Context;
 import haxe.macro.Context;
 using awe.util.MacroTools;
 
+/**
+	A filter for matching entities' components against.
+
+	This can be constructed by using the `Filter.build(_)` macro.
+	Using this, you can build a filter from a binary operation representing
+	the combination of types this will expect.
+
+	## Supported Operations
+
+	### All of...
+	```haxe
+	Filter.build(Position & Velocity);
+	```
+	### One of...
+	```haxe
+	Filter.build(Position | Velocity);
+	```
+	### None of...
+	```haxe
+	Filter.build(!Position);
+	```
+**/
 class Filter {
 	var allSet(default, null): BitSet;
 	var oneSet(default, null): BitSet;
@@ -20,7 +42,6 @@ class Filter {
 		this.oneSet = oneSet;
 		this.noneSet = noneSet;
 	}
-	/** Build a filter from a bin op on the types. **/
 	public static macro function build(expr: Expr): ExprOf<Filter> {
 		var debug = Context.defined("debug");
 		if(debug)
@@ -31,12 +52,16 @@ class Filter {
 		function innerBuild(expr: Expr, ?set: BitSet) {
 			set = set == null ? all : set;
 			switch(expr.expr) {
+				case EParenthesis(e):
+					innerBuild(expr, set);
 				case EBinop(OpAnd | OpAdd, a, b):
 					innerBuild(a, all);
 					innerBuild(b, all);
 				case EBinop(OpOr, a, b):
 					innerBuild(a, one);
 					innerBuild(b, one);
+				case EUnop(OpNot, _, a):
+					innerBuild(a, none);
 				case EField(_, _) | EConst(CIdent(_)):
 					var ty = expr.resolveTypeLiteral();
 					var cty = ComponentType.get(ty);
@@ -50,7 +75,11 @@ class Filter {
 		innerBuild(expr);
 		return macro new Filter($v{all.toBag().toArray()}, $v{one.toBag().toArray()}, $v{none.toBag().toArray()});
 	}
-	/** Returns true if this Filter matches the BitSet given. **/
-	public inline function matches(components: BitSet)
+	/**
+		Returns true if the `components` set fulfills this filter.
+		@param components The `BitSet` of components to check against.
+		@return If the `components` set fulfills this filter.
+	**/
+	public inline function matches(components: BitSet): Bool
 		return allSet.contains(components) && !noneSet.intersects(components) && oneSet.intersects(components);
 }

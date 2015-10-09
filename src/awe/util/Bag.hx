@@ -3,9 +3,15 @@ package awe.util;
 import haxe.ds.Vector;
 
 abstract Bag<T>(BagData<T>) {
+	/** How many items are contained in this bag. **/
 	public var length(get, never): Int;
+	/** How many items can be stored in this bag without re-allocating. **/
 	public var capacity(get, never): Int;
 
+	/**
+		Construct a new Bag with the capacity given or 16.
+		@param capacity How many items can be stored in this bag without re-allocating.
+	**/
 	public inline function new(capacity:Int = 16)
 		this = new BagData<T>(capacity);
 
@@ -15,30 +21,59 @@ abstract Bag<T>(BagData<T>) {
 	inline function get_length()
 		return this.length;
 
+	/** Clear this of items. **/
 	public inline function clear():Void
 		this.clear();
 
+	/**
+		Check if this bag contains the value given.
+		@param value The value to check is contained.
+		@return If this value is contained in this bag.
+	**/
 	public inline function contains(value: T): Bool
 		return this.contains(value);
 
+	/**
+		Add the item to this bag.
+		@param item The item to add.
+	**/
 	public inline function add(item: T):Void
 		this.add(item);
 
+	/**
+		Ensure that this bag can store up to `capacity` without re-allocating.
+		@param capacity The capacity to make sure is allocated.
+	**/
 	public inline function ensureCapacity(capacity:Int):Void
 		this.ensureCapacity(capacity);
 
+	/** Retrieve the `index`th item from this bag. **/
 	@:arrayAccess public inline function get(index: Int): Null<T>
 		return this.get(index);
 
+	/** Set the `index`th item in this bag to `value`. **/
 	@:arrayAccess public inline function set(index: Int, value: T): T
 		return this.set(index, value);
 
+	/**
+		Iterate through this bag's contents.
+		@return The iterator.
+	**/
 	public inline function iterator():BagIterator<T>
 		return this.iterator();
 
+	/**
+		Remove `item` from this bag.
+		@param item The item to try to remove.
+		@return If the item could be found and removed.
+	**/
 	public inline function remove(item: T):Bool
 		return this.remove(item);
 
+	/**
+		Remove the last item from this bag.
+		@return The ex-last item.
+	**/
 	public inline function removeLast(): Null<T>
 		return this.removeLast();
 
@@ -60,8 +95,6 @@ abstract Bag<T>(BagData<T>) {
 	@:to public inline function toArray(): Array<T>
 		return this.data.toArray();
 }
-
-/** A Bag. */
 @:generic
 class BagData<T> {
 	public var data(default, null):Vector<T>;
@@ -132,9 +165,6 @@ class BagData<T> {
 		}
 		return buf.toString();
 	}
-	/**
-		Copy the elements from `srcPos` terminating at `srcPos + len` to `dest` at the offset `destPos`
-	**/
 	public inline function blit(srcPos: Int, dest: BagData<T>, destPos: Int, len: Int)
 		Vector.blit(data, srcPos, dest.data, destPos, len);
 
