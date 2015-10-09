@@ -348,11 +348,71 @@
 		</meta>
 	</abstract>
 	<class path="Date" params="" file="/opt/haxe/std/neko/_std/Date.hx">
+		<fromTime public="1" set="method" line="73" static="1">
+			<f a="t">
+				<x path="Float"/>
+				<c path="Date"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns a Date from timestamp `t`.</haxe_doc>
+		</fromTime>
+		<fromString public="1" set="method" line="81" static="1">
+			<f a="s">
+				<c path="String"/>
+				<c path="Date"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns a Date from a formated string `s`, with the following accepted
+		formats:
+
+		- `"YYYY-MM-DD hh:mm:ss"`
+		- `"YYYY-MM-DD"`
+		- `"hh:mm:ss"`
+
+		The first two formats are expressed in local time, the third in UTC
+		Epoch.</haxe_doc>
+		</fromString>
+		<new1 set="method" line="85" static="1"><f a="t">
+	<d/>
+	<c path="Date"/>
+</f></new1>
+		<date_new line="91" static="1"><f a="">
+	<unknown/>
+	<unknown/>
+</f></date_new>
 		<date_format line="93" static="1"><f a=":">
 	<d/>
 	<unknown/>
 	<c path="String"/>
 </f></date_format>
+		<date_set_hour line="94" static="1"><f a=":::">
+	<d/>
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Int"/>
+	<unknown/>
+</f></date_set_hour>
+		<date_set_day line="95" static="1"><f a=":::">
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Int"/>
+	<unknown/>
+</f></date_set_day>
+		<int32_to_float line="98" static="1"><f a="">
+	<d/>
+	<x path="Int"/>
+</f></int32_to_float>
+		<int32_add line="99" static="1"><f a=":">
+	<unknown/>
+	<unknown/>
+	<unknown/>
+</f></int32_add>
+		<int32_shl line="100" static="1"><f a=":">
+	<unknown/>
+	<x path="Int"/>
+	<unknown/>
+</f></int32_shl>
 		<__string set="method" line="101" static="1">
 			<f a=""><c path="String"/></f>
 			<meta>
@@ -361,6 +421,11 @@
 			</meta>
 		</__string>
 		<__t><d/></__t>
+		<getTime public="1" set="method" line="33">
+			<f a=""><x path="Float"/></f>
+			<haxe_doc>Returns the timestamp of the date. It might only have a per-second
+		precision depending on the platforms.</haxe_doc>
+		</getTime>
 		<toString public="1" set="method" line="65">
 			<f a=""><c path="String"/></f>
 			<meta><m n=":keep"/></meta>
@@ -368,6 +433,27 @@
 		standard format [YYYY-MM-DD HH:MM:SS]. See `DateTools.format` for
 		other formating rules.</haxe_doc>
 		</toString>
+		<new public="1" set="method" line="28">
+			<f a="year:month:day:hour:min:sec">
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Int"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Creates a new date object from the given arguments.
+
+		The behaviour of a Date instance is only consistent across platforms if
+		the the arguments describe a valid date.
+
+		- month: 0 to 11
+		- day: 1 to 31
+		- hour: 0 to 23
+		- min: 0 to 59
+		- sec: 0 to 59</haxe_doc>
+		</new>
 		<haxe_doc>The Date class provides a basic structure for date and time related
 	information. Date instances can be created by
 
@@ -413,6 +499,16 @@
 			<x path="Int"/>
 			<haxe_doc>The length of `this` List.</haxe_doc>
 		</length>
+		<add public="1" set="method" line="49">
+			<f a="item">
+				<c path="List.T"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Adds element `item` at the end of `this` List.
+
+		`this.length` increases by 1.</haxe_doc>
+		</add>
 		<push public="1" set="method" line="64">
 			<f a="item">
 				<c path="List.T"/>
@@ -592,12 +688,77 @@
 		or `POSITIVE_INFINITY`, the result is unspecified.</haxe_doc>
 		</ceil>
 		<__rnd static="1"><unknown/></__rnd>
+		<isNaN public="1" set="method" line="60" static="1">
+			<f a="f">
+				<x path="Float"/>
+				<x path="Bool"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Tells if `f` is not a valid number.
+
+		If `f` is `NaN`, the result is `true`, otherwise the result is `false`.
+		In particular, both `POSITIVE_INFINITY` and `NEGATIVE_INFINITY` are
+		not considered `NaN`.</haxe_doc>
+		</isNaN>
+		<isFinite public="1" set="method" line="61" static="1">
+			<f a="f">
+				<x path="Float"/>
+				<x path="Bool"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Tells if `f` is a finite number.
+
+		If `f` is `POSITIVE_INFINITY`, `NEGATIVE_INFINITY` or `NaN`, the result
+		is `false`, otherwise the result is `true`.</haxe_doc>
+		</isFinite>
 		<haxe_doc>This class defines mathematical functions and constants.</haxe_doc>
 		<meta>
 			<m n=":keep"/>
 			<m n=":directlyUsed"/>
 			<m n=":coreApi"/>
 			<m n=":final"/>
+		</meta>
+	</class>
+	<class path="Reflect" params="" file="/opt/haxe/std/neko/_std/Reflect.hx">
+		<callMethod public="1" set="method" line="49" static="1">
+			<f a="o:func:args">
+				<d/>
+				<x path="haxe.Function"/>
+				<c path="Array"><d/></c>
+				<d/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Call a method with the given object and arguments.</haxe_doc>
+		</callMethod>
+		<fields public="1" set="method" line="61" static="1">
+			<f a="o">
+				<d/>
+				<c path="Array"><c path="String"/></c>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns the fields of structure `o`.
+
+		This method is only guaranteed to work on anonymous structures. Refer to
+		`Type.getInstanceFields` for a function supporting class instances.
+
+		If `o` is null, the result is unspecified.</haxe_doc>
+		</fields>
+		<isFunction public="1" set="method" line="81" static="1">
+			<f a="f">
+				<d/>
+				<x path="Bool"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns true if `f` is a function, false otherwise.
+
+		If `f` is null, the result is false.</haxe_doc>
+		</isFunction>
+		<haxe_doc>The Reflect API is a way to manipulate values dynamically through an
+	abstract interface in an untyped manner. Use with care.</haxe_doc>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+			<m n=":coreApi"/>
 		</meta>
 	</class>
 	<abstract path="Int" params="" file="/opt/haxe/std/StdTypes.hx" module="StdTypes">
@@ -766,6 +927,19 @@
 
 		If `x` is outside of the signed Int32 range, or is `NaN`, `NEGATIVE_INFINITY` or `POSITIVE_INFINITY`, the result is unspecified.</haxe_doc>
 		</int>
+		<parseFloat public="1" set="method" line="53" static="1">
+			<f a="x">
+				<c path="String"/>
+				<x path="Float"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Converts a `String` to a `Float`.
+
+		The parsing rules for `parseInt` apply here as well, with the exception of invalid input
+		resulting in a `NaN` value instead of null.
+
+		Additionally, decimal notation may contain a single `.` to denote the start of the fractions.</haxe_doc>
+		</parseFloat>
 		<haxe_doc>The Std class provides standard methods for manipulating basic types.</haxe_doc>
 		<meta>
 			<m n=":keep"/>
@@ -1054,6 +1228,25 @@
 			<m n=":coreApi"/>
 		</meta>
 	</class>
+	<class path="StringTools" params="" file="/opt/haxe/std/StringTools.hx">
+		<_urlEncode line="422" static="1"><f a="">
+	<unknown/>
+	<c path="String"/>
+</f></_urlEncode>
+		<_urlDecode line="423" static="1"><f a="">
+	<unknown/>
+	<c path="String"/>
+</f></_urlDecode>
+		<haxe_doc>This class provides advanced methods on Strings. It is ideally used with
+	'using StringTools' and then acts as an extension to the String class.
+
+	If the first argument to any of the methods is null, the result is
+	unspecified.</haxe_doc>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
+	</class>
 	<class path="Sys" params="" file="/opt/haxe/std/neko/_std/Sys.hx">
 		<sleep public="1" set="method" line="74" static="1">
 			<f a="seconds">
@@ -1078,6 +1271,18 @@
 			<m n=":coreApi"/>
 		</meta>
 	</class>
+	<enum path="ValueType" params="" file="/opt/haxe/std/neko/_std/Type.hx" module="Type">
+		<TNull/>
+		<TInt/>
+		<TFloat/>
+		<TBool/>
+		<TObject/>
+		<TFunction/>
+		<TClass a="c"><x path="Class"><d/></x></TClass>
+		<TEnum a="e"><x path="Enum"><d/></x></TEnum>
+		<TUnknown/>
+		<meta><m n=":directlyUsed"/></meta>
+	</enum>
 	<class path="Type" params="" file="/opt/haxe/std/neko/_std/Type.hx">
 		<getClassName public="1" set="method" line="57" static="1">
 			<f a="c">
@@ -1099,6 +1304,61 @@
 
 		The class name does not include any type parameters.</haxe_doc>
 		</getClassName>
+		<getEnumName public="1" set="method" line="64" static="1">
+			<f a="e">
+				<x path="Enum"><d/></x>
+				<c path="String"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns the name of enum `e`, including its path.
+
+		If `e` is inside a package, the package structure is returned dot-
+		separated, with another dot separating the enum name:
+		`pack1.pack2.(...).packN.EnumName`
+		If `e` is a sub-type of a haxe module, that module is not part of the
+		package structure.
+
+		If `e` has no package, the enum name is returned.
+
+		If `e` is null, the result is unspecified.
+
+		The enum name does not include any type parameters.</haxe_doc>
+		</getEnumName>
+		<resolveClass public="1" set="method" line="69" static="1">
+			<f a="name">
+				<c path="String"/>
+				<x path="Class"><d/></x>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Resolves a class by name.
+
+		If `name` is the path of an existing class, that class is returned.
+
+		Otherwise null is returned.
+
+		If `name` is null or the path to a different type, the result is
+		unspecified.
+
+		The class name must not include any type parameters.</haxe_doc>
+		</resolveClass>
+		<resolveEnum public="1" set="method" line="84" static="1">
+			<f a="name">
+				<c path="String"/>
+				<x path="Enum"><d/></x>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Resolves an enum by name.
+
+		If `name` is the path of an existing enum, that enum is returned.
+
+		Otherwise null is returned.
+
+		If `name` is null the result is unspecified.
+
+		If `name` is the path to a different type, null is returned.
+
+		The enum name must not include any type parameters.</haxe_doc>
+		</resolveEnum>
 		<createEmptyInstance public="1" params="T" set="method" line="111" static="1">
 			<f a="cl">
 				<x path="Class"><c path="createEmptyInstance.T"/></x>
@@ -1111,6 +1371,46 @@
 
 		If `cl` is null, the result is unspecified.</haxe_doc>
 		</createEmptyInstance>
+		<createEnum public="1" params="T" set="method" line="117" static="1">
+			<f a="e:constr:?params">
+				<x path="Enum"><c path="createEnum.T"/></x>
+				<c path="String"/>
+				<c path="Array"><d/></c>
+				<c path="createEnum.T"/>
+			</f>
+			<haxe_doc>Creates an instance of enum `e` by calling its constructor `constr` with
+		arguments `params`.
+
+		If `e` or `constr` is null, or if enum `e` has no constructor named
+		`constr`, or if the number of elements in `params` does not match the
+		expected number of constructor arguments, or if any argument has an
+		invalid type, the result is unspecified.</haxe_doc>
+		</createEnum>
+		<getEnumConstructs public="1" set="method" line="168" static="1">
+			<f a="e">
+				<x path="Enum"><d/></x>
+				<c path="Array"><c path="String"/></c>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns a list of the names of all constructors of enum `e`.
+
+		The order of the constructor names in the returned Array is preserved
+		from the original syntax.
+
+		If `c` is null, the result is unspecified.</haxe_doc>
+		</getEnumConstructs>
+		<typeof public="1" set="method" line="173" static="1">
+			<f a="v">
+				<d/>
+				<e path="ValueType"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Returns the runtime type of value `v`.
+
+		The result corresponds to the type `v` has at runtime, which may vary
+		per platform. Assumptions regarding this should be minimized to avoid
+		surprises.</haxe_doc>
+		</typeof>
 		<haxe_doc>The haxe Reflection API allows retrieval of type information at runtime.
 
 	This class complements the more lightweight Reflect class, with a focus on
@@ -1164,7 +1464,7 @@
 			<m n=":keepSub"/>
 		</meta>
 	</class>
-	<class path="awe.IComponentList" params="T" file="src/awe/ComponentList.hx" module="awe.ComponentList" interface="1">
+	<class path="awe.IComponentList" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList" interface="1">
 		<get_capacity public="1" set="method">
 			<f a=""><x path="Int"/></f>
 			<meta><m n=":compilerGenerated"/></meta>
@@ -1177,19 +1477,19 @@
 			<x path="Int"/>
 			<haxe_doc>How many components this list contains.</haxe_doc>
 		</length>
-		<get public="1" set="method">
+		<get public="1" params="T" set="method">
 			<f a="id">
 				<x path="awe.Entity"/>
-				<c path="awe.IComponentList.T"/>
+				<t path="Null"><c path="get.T"/></t>
 			</f>
 			<haxe_doc>Retrieve the component corresponding associated to the ID.
 		@param id The `Entity` to retrieve the component for.
 		@return The component.</haxe_doc>
 		</get>
-		<add public="1" set="method">
+		<add public="1" params="T" set="method">
 			<f a="id:value">
 				<x path="awe.Entity"/>
-				<c path="awe.IComponentList.T"/>
+				<c path="add.T"/>
 				<x path="Void"/>
 			</f>
 			<haxe_doc>Add the component to this list with the given ID.
@@ -1197,114 +1497,131 @@
 		</add>
 		<remove public="1" set="method">
 			<f a="id">
-				<x path="Int"/>
+				<x path="awe.Entity"/>
 				<x path="Void"/>
 			</f>
 			<haxe_doc>Remove the component corresponding to the ID given.
 		@param id The `Entity` to remove from this list.</haxe_doc>
 		</remove>
 		<iterator public="1" set="method">
-			<f a=""><c path="awe.ComponentListIterator"><c path="awe.IComponentList.T"/></c></f>
+			<f a=""><c path="awe.ComponentListIterator"/></f>
 			<haxe_doc>Iterate through the items in this list.
 		@return The iterator for this list.</haxe_doc>
 		</iterator>
+		<serialize public="1" set="method">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>Serialize this list into a `String`.
+		@return The serialized form of this list.</haxe_doc>
+		</serialize>
+		<unserialize public="1" set="method">
+			<f a="value">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Unserialize the serialized value into this list.
+		@param serial The serialized version of this list.</haxe_doc>
+		</unserialize>
 		<haxe_doc>Represents a list of components.</haxe_doc>
 	</class>
-	<class path="awe.ComponentList" params="T" file="src/awe/ComponentList.hx">
-		<implements path="awe.IComponentList"><c path="awe.ComponentList.T"/></implements>
-		<create public="1" params="T" get="inline" set="null" line="40" static="1"><f a="cl">
-	<x path="Class"><c path="create.T"/></x>
-	<c path="awe.IComponentList"><c path="create.T"/></c>
-</f></create>
+	<class path="awe.ComponentList" params="" file="src/awe/ComponentList.hx">
+		<implements path="awe.IComponentList"/>
+		<genericUnserialize public="1" set="method" line="89" static="1"><f a="value">
+	<c path="String"/>
+	<c path="awe.IComponentList"/>
+</f></genericUnserialize>
 		<capacity public="1" get="accessor" set="null"><x path="Int"/></capacity>
 		<length public="1" set="null"><x path="Int"/></length>
-		<list><x path="haxe.ds.Vector"><c path="awe.ComponentList.T"/></x></list>
-		<get_capacity public="1" get="inline" set="null" line="45"><f a=""><x path="Int"/></f></get_capacity>
-		<get public="1" get="inline" set="null" line="54">
+		<list><x path="haxe.ds.Vector"><c path="awe.Component"/></x></list>
+		<get_capacity public="1" get="inline" set="null" line="52"><f a=""><x path="Int"/></f></get_capacity>
+		<get public="1" params="T" get="inline" set="null" line="61">
 			<f a="entity">
 				<x path="awe.Entity"/>
-				<c path="awe.ComponentList.T"/>
+				<t path="Null"><c path="get.T"/></t>
 			</f>
 			<meta><m n=":keep"/></meta>
 		</get>
-		<add public="1" set="method" line="57"><f a="entity:value">
+		<add public="1" params="T" set="method" line="64"><f a="entity:value">
 	<x path="awe.Entity"/>
-	<c path="awe.ComponentList.T"/>
+	<c path="add.T"/>
 	<x path="Void"/>
 </f></add>
-		<remove public="1" get="inline" set="null" line="66"><f a="id">
-	<x path="Int"/>
+		<remove public="1" get="inline" set="null" line="73"><f a="entity">
+	<x path="awe.Entity"/>
 	<x path="Void"/>
 </f></remove>
-		<iterator public="1" get="inline" set="null" line="69"><f a=""><c path="awe.ComponentListIterator"><c path="awe.ComponentList.T"/></c></f></iterator>
-		<new public="1" set="method" line="48"><f a="?capacity">
+		<iterator public="1" get="inline" set="null" line="76"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
+		<serialize public="1" set="method" line="79"><f a=""><c path="String"/></f></serialize>
+		<unserialize public="1" set="method" line="84"><f a="value">
+	<c path="String"/>
+	<x path="Void"/>
+</f></unserialize>
+		<new public="1" set="method" line="55"><f a="?capacity">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="awe.ComponentListItem" params="T" file="src/awe/ComponentList.hx" module="awe.ComponentList">
+	<class path="awe.ComponentListItem" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList">
 		<index public="1" set="null"><x path="awe.Entity"/></index>
-		<component public="1" set="null"><c path="awe.ComponentListItem.T"/></component>
-		<new public="1" set="method" line="79"><f a="index:component">
+		<component public="1" set="null"><c path="awe.Component"/></component>
+		<new public="1" set="method" line="105"><f a="index:component">
 	<x path="awe.Entity"/>
-	<c path="awe.ComponentListItem.T"/>
+	<c path="awe.Component"/>
 	<x path="Void"/>
 </f></new>
-		<meta>
-			<m n=":directlyUsed"/>
-			<m n=":generic"/>
-		</meta>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="awe.ComponentListIterator" params="T" file="src/awe/ComponentList.hx" module="awe.ComponentList">
-		<list><c path="awe.IComponentList"><c path="awe.ComponentListIterator.T"/></c></list>
+	<class path="awe.ComponentListIterator" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList">
+		<list><c path="awe.IComponentList"/></list>
 		<index><x path="Int"/></index>
-		<hasNext public="1" get="inline" set="null" line="93"><f a=""><x path="Bool"/></f></hasNext>
-		<next public="1" set="method" line="96"><f a=""><c path="awe.ComponentListItem"><c path="awe.ComponentListIterator.T"/></c></f></next>
-		<new public="1" set="method" line="90"><f a="list">
-	<c path="awe.IComponentList"><c path="awe.ComponentListIterator.T"/></c>
+		<hasNext public="1" get="inline" set="null" line="117"><f a=""><x path="Bool"/></f></hasNext>
+		<next public="1" set="method" line="120"><f a=""><c path="awe.ComponentListItem"/></f></next>
+		<new public="1" set="method" line="114"><f a="list">
+	<c path="awe.IComponentList"/>
 	<x path="Void"/>
 </f></new>
-		<meta>
-			<m n=":directlyUsed"/>
-			<m n=":generic"/>
-		</meta>
+		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="awe.PackedComponentList" params="T" file="src/awe/ComponentList.hx" module="awe.ComponentList">
-		<implements path="awe.IComponentList"><c path="awe.PackedComponentList.T"/></implements>
+	<class path="awe.PackedComponentList" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList">
+		<implements path="awe.IComponentList"/>
 		<capacity public="1" get="accessor" set="null"><x path="Int"/></capacity>
 		<length public="1" set="null"><x path="Int"/></length>
-		<buffer><c path="awe.PackedComponentList.T"/></buffer>
+		<buffer><c path="awe.Component"/></buffer>
 		<bytes><c path="haxe.io.Bytes"/></bytes>
 		<size><x path="Int"/></size>
-		<get_capacity public="1" get="inline" set="null" line="110"><f a=""><x path="Int"/></f></get_capacity>
-		<get public="1" get="inline" set="null" line="125">
+		<get_capacity public="1" get="inline" set="null" line="134"><f a=""><x path="Int"/></f></get_capacity>
+		<get public="1" params="T" get="inline" set="null" line="149">
 			<f a="entity">
 				<x path="awe.Entity"/>
-				<c path="awe.PackedComponentList.T"/>
+				<t path="Null"><c path="get.T"/></t>
 			</f>
 			<meta>
 				<m n=":has_untyped"/>
 				<m n=":keep"/>
 			</meta>
 		</get>
-		<add public="1" set="method" line="130">
+		<add public="1" params="T" set="method" line="154">
 			<f a="entity:value">
 				<x path="awe.Entity"/>
-				<c path="awe.PackedComponentList.T"/>
+				<c path="add.T"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":has_untyped"/></meta>
 		</add>
-		<remove public="1" get="inline" set="null" line="140"><f a="id">
-	<x path="Int"/>
+		<remove public="1" get="inline" set="null" line="164"><f a="entity">
+	<x path="awe.Entity"/>
 	<x path="Void"/>
 </f></remove>
-		<iterator public="1" get="inline" set="null" line="143"><f a=""><c path="awe.ComponentListIterator"><c path="awe.PackedComponentList.T"/></c></f></iterator>
-		<new public="1" set="method" line="113">
+		<serialize public="1" get="inline" set="null" line="167"><f a=""><c path="String"/></f></serialize>
+		<unserialize public="1" set="method" line="170"><f a="value">
+	<c path="String"/>
+	<x path="Void"/>
+</f></unserialize>
+		<iterator public="1" get="inline" set="null" line="175"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
+		<new public="1" set="method" line="137">
 			<f a="?capacity:cl">
 				<x path="Int"/>
-				<x path="Class"><c path="awe.PackedComponentList.T"/></x>
+				<x path="Class"><c path="awe.Component"/></x>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":has_untyped"/></meta>
@@ -1317,22 +1634,22 @@
 		<to><icast><x path="Int"/></icast></to>
 		<haxe_doc>A Unique Identifier for a class implementing Component</haxe_doc>
 		<impl><class path="awe._ComponentType.ComponentType_Impl_" params="" file="src/awe/ComponentType.hx" private="1" module="awe.ComponentType">
-	<PACKED_FLAG get="inline" set="null" line="35" static="1"><x path="Int"/></PACKED_FLAG>
-	<isPacked public="1" get="inline" set="null" line="36" static="1">
+	<PACKED_FLAG get="inline" set="null" line="38" static="1"><x path="Int"/></PACKED_FLAG>
+	<isPacked public="1" get="inline" set="null" line="39" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="Bool"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</isPacked>
-	<getPure public="1" get="inline" set="null" line="39" static="1">
+	<getPure public="1" get="inline" set="null" line="42" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="Int"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</getPure>
-	<addTo public="1" get="inline" set="null" line="44" static="1">
+	<addTo public="1" get="inline" set="null" line="47" static="1">
 		<f a="this:value">
 			<x path="Int"/>
 			<x path="Int"/>
@@ -1341,7 +1658,7 @@
 		<meta><m n=":impl"/></meta>
 		<haxe_doc>Add this to the Int given.</haxe_doc>
 	</addTo>
-	<eq get="inline" set="null" line="46" static="1">
+	<eq get="inline" set="null" line="49" static="1">
 		<f a="a:b">
 			<x path="awe.ComponentType"/>
 			<x path="awe.ComponentType"/>
@@ -1349,7 +1666,7 @@
 		</f>
 		<meta><m n=":op"><e>A==B</e></m></meta>
 	</eq>
-	<neq get="inline" set="null" line="48" static="1">
+	<neq get="inline" set="null" line="51" static="1">
 		<f a="a:b">
 			<x path="awe.ComponentType"/>
 			<x path="awe.ComponentType"/>
@@ -1360,22 +1677,22 @@
 </class></impl>
 	</abstract>
 	<class path="awe._ComponentType.ComponentType_Impl_" params="" file="src/awe/ComponentType.hx" private="1" module="awe.ComponentType">
-		<PACKED_FLAG get="inline" set="null" line="35" static="1"><x path="Int"/></PACKED_FLAG>
-		<isPacked public="1" get="inline" set="null" line="36" static="1">
+		<PACKED_FLAG get="inline" set="null" line="38" static="1"><x path="Int"/></PACKED_FLAG>
+		<isPacked public="1" get="inline" set="null" line="39" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="Bool"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</isPacked>
-		<getPure public="1" get="inline" set="null" line="39" static="1">
+		<getPure public="1" get="inline" set="null" line="42" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="Int"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</getPure>
-		<addTo public="1" get="inline" set="null" line="44" static="1">
+		<addTo public="1" get="inline" set="null" line="47" static="1">
 			<f a="this:value">
 				<x path="Int"/>
 				<x path="Int"/>
@@ -1384,7 +1701,7 @@
 			<meta><m n=":impl"/></meta>
 			<haxe_doc>Add this to the Int given.</haxe_doc>
 		</addTo>
-		<eq get="inline" set="null" line="46" static="1">
+		<eq get="inline" set="null" line="49" static="1">
 			<f a="a:b">
 				<x path="awe.ComponentType"/>
 				<x path="awe.ComponentType"/>
@@ -1392,7 +1709,7 @@
 			</f>
 			<meta><m n=":op"><e>A==B</e></m></meta>
 		</eq>
-		<neq get="inline" set="null" line="48" static="1">
+		<neq get="inline" set="null" line="51" static="1">
 			<f a="a:b">
 				<x path="awe.ComponentType"/>
 				<x path="awe.ComponentType"/>
@@ -1404,36 +1721,30 @@
 	<class path="awe.Engine" params="" file="src/awe/Engine.hx">
 		<components public="1" set="null"><x path="Map">
 	<x path="awe.ComponentType"/>
-	<c path="awe.IComponentList"><c path="awe.Component"/></c>
+	<c path="awe.IComponentList"/>
 </x></components>
 		<systems public="1" set="null"><x path="awe.util.Bag"><c path="awe.System"/></x></systems>
-		<update public="1" get="inline" set="null" line="20"><f a="delta">
+		<update public="1" get="inline" set="null" line="51"><f a="delta">
 	<x path="Float"/>
 	<x path="Void"/>
 </f></update>
-		<delayLoop public="1" set="method" line="24"><f a="delay">
+		<delayLoop public="1" set="method" line="55"><f a="delay">
 	<x path="Float"/>
 	<c path="awe.util.Timer"/>
 </f></delayLoop>
-		<loop public="1" set="method" line="29"><f a=""><x path="Void"/></f></loop>
-		<new public="1" set="method" line="12"><f a="setup">
-	<c path="awe.EngineSetup"/>
-	<x path="Void"/>
-</f></new>
+		<loop public="1" set="method" line="60"><f a=""><x path="Void"/></f></loop>
+		<new public="1" set="method" line="19"><f a=""><x path="Void"/></f></new>
 	</class>
-	<class path="awe.EngineSetup" params="" file="src/awe/Engine.hx" module="awe.Engine">
-		<components public="1" set="null"><x path="awe.util.Bag"><x path="Class"><c path="awe.Component"/></x></x></components>
-		<systems public="1" set="null"><x path="awe.util.Bag"><c path="awe.System"/></x></systems>
-		<registerComponent public="1" get="inline" set="null" line="47"><f a="cl">
-	<x path="Class"><c path="awe.Component"/></x>
-	<c path="awe.EngineSetup"/>
-</f></registerComponent>
-		<setSystem public="1" get="inline" set="null" line="52"><f a="system">
-	<c path="awe.System"/>
-	<c path="awe.EngineSetup"/>
-</f></setSystem>
-		<new public="1" set="method" line="42"><f a=""><x path="Void"/></f></new>
-	</class>
+	<typedef path="awe.EngineSetup" params="" file="src/awe/Engine.hx" module="awe.Engine"><a>
+	<systems>
+		<t path="Null"><c path="Array"><c path="awe.System"/></c></t>
+		<meta><m n=":optional"/></meta>
+	</systems>
+	<components>
+		<t path="Null"><c path="Array"><x path="Class"><c path="awe.Component"/></x></c></t>
+		<meta><m n=":optional"/></meta>
+	</components>
+</a></typedef>
 	<abstract path="awe.Entity" params="" file="src/awe/Entity.hx">
 		<this><x path="Int"/></this>
 		<haxe_doc>Reperesents a single glob of data.</haxe_doc>
@@ -1729,7 +2040,7 @@
 			<m n=":from"/>
 		</meta>
 	</fromVector>
-	<fromArray public="1" params="T" get="inline" set="null" line="97" static="1">
+	<fromArray public="1" params="T" set="method" line="97" static="1">
 		<f a="array">
 			<c path="Array"><c path="fromArray.T"/></c>
 			<x path="awe.util.Bag"><unknown/></x>
@@ -1897,7 +2208,7 @@
 				<m n=":from"/>
 			</meta>
 		</fromVector>
-		<fromArray public="1" params="T" get="inline" set="null" line="97" static="1">
+		<fromArray public="1" params="T" set="method" line="97" static="1">
 			<f a="array">
 				<c path="Array"><c path="fromArray.T"/></c>
 				<x path="awe.util.Bag"><unknown/></x>
@@ -2941,6 +3252,244 @@
   * the same underlying type, even though it might be different on
   * specific platforms.</haxe_doc>
 	</typedef>
+	<class path="haxe.Serializer" params="" file="/opt/haxe/std/haxe/Serializer.hx">
+		<USE_CACHE public="1" line="55" static="1">
+			<x path="Bool"/>
+			<haxe_doc>If the values you are serializing can contain circular references or
+		objects repetitions, you should set USE_CACHE to true to prevent
+		infinite loops.
+
+		This may also reduce the size of serialization Strings at the expense of
+		performance.
+
+		This value can be changed for individual instances of Serializer by
+		setting their useCache field.</haxe_doc>
+		</USE_CACHE>
+		<USE_ENUM_INDEX public="1" line="67" static="1">
+			<x path="Bool"/>
+			<haxe_doc>Use constructor indexes for enums instead of names.
+
+		This may reduce the size of serialization Strings, but makes them less
+		suited for long-term storage: If constructors are removed or added from
+		the enum, the indices may no longer match.
+
+		This value can be changed for individual instances of Serializer by
+		setting their useEnumIndex field.</haxe_doc>
+		</USE_ENUM_INDEX>
+		<BASE64 line="69" static="1"><c path="String"/></BASE64>
+		<run public="1" set="method" line="544" static="1">
+			<f a="v">
+				<d/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>Serializes `v` and returns the String representation.
+
+		This is a convenience function for creating a new instance of
+		Serializer, serialize `v` into it and obtain the result through a call
+		to toString().</haxe_doc>
+		</run>
+		<base_encode line="551" static="1"><f a=":">
+	<t path="haxe.io.BytesData"/>
+	<unknown/>
+	<c path="String"/>
+</f></base_encode>
+		<buf><c path="StringBuf"/></buf>
+		<cache><c path="Array"><d/></c></cache>
+		<shash><c path="haxe.ds.StringMap"><x path="Int"/></c></shash>
+		<scount><x path="Int"/></scount>
+		<useCache public="1">
+			<x path="Bool"/>
+			<haxe_doc>The individual cache setting for `this` Serializer instance.
+
+		See USE_CACHE for a complete description.</haxe_doc>
+		</useCache>
+		<useEnumIndex public="1">
+			<x path="Bool"/>
+			<haxe_doc>The individual enum index setting for `this` Serializer instance.
+
+		See USE_ENUM_INDEX for a complete description.</haxe_doc>
+		</useEnumIndex>
+		<toString public="1" set="method" line="115">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>Return the String representation of `this` Serializer.
+
+		The exact format specification can be found here:
+		http://haxe.org/manual/serialization/format</haxe_doc>
+		</toString>
+		<serializeString set="method" line="152"><f a="s">
+	<c path="String"/>
+	<x path="Void"/>
+</f></serializeString>
+		<serializeRef set="method" line="171"><f a="v">
+	<unknown/>
+	<x path="Bool"/>
+</f></serializeRef>
+		<serializeFields set="method" line="208"><f a="v">
+	<unknown/>
+	<x path="Void"/>
+</f></serializeFields>
+		<serialize public="1" set="method" line="226">
+			<f a="v">
+				<d/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Serializes `v`.
+
+		All haxe-defined values and objects with the exception of functions can
+		be serialized. Serialization of external/native objects is not
+		guaranteed to work.
+
+		The values of `this.useCache` and `this.useEnumIndex` may affect
+		serialization output.</haxe_doc>
+		</serialize>
+		<new public="1" set="method" line="100">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>Creates a new Serializer instance.
+
+		Subsequent calls to `this.serialize` will append values to the
+		internal buffer of this String. Once complete, the contents can be
+		retrieved through a call to `this.toString`.
+
+		Each Serializer instance maintains its own cache if this.useCache` is
+		true.</haxe_doc>
+		</new>
+		<haxe_doc>The Serializer class can be used to encode values and objects into a String,
+	from which the Unserializer class can recreate the original representation.
+
+	This class can be used in two ways:
+
+	- create a new Serializer() instance, call its serialize() method with
+		any argument and finally retrieve the String representation from
+		toString()
+	- call Serializer.run() to obtain the serialized representation of a
+		single argument
+
+	Serialization is guaranteed to work for all haxe-defined classes, but may
+	or may not work for instances of external/native classes.
+
+	The specification of the serialization format can be found here:
+	`http://haxe.org/manual/serialization/format`</haxe_doc>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
+	</class>
+	<class path="haxe.Unserializer" params="" file="/opt/haxe/std/haxe/Unserializer.hx">
+		<DEFAULT_RESOLVER public="1" line="60" static="1">
+			<t path="haxe.TypeResolver"/>
+			<haxe_doc><![CDATA[This value can be set to use custom type resolvers.
+
+		A type resolver finds a Class or Enum instance from a given String. By
+		default, the haxe Type Api is used.
+
+		A type resolver must provide two methods:
+
+		1. resolveClass(name:String):Class<Dynamic> is called to determine a
+				Class from a class name
+		2. resolveEnum(name:String):Enum<Dynamic> is called to determine an
+				Enum from an enum name
+
+		This value is applied when a new Unserializer instance is created.
+		Changing it afterwards has no effect on previously created instances.]]></haxe_doc>
+		</DEFAULT_RESOLVER>
+		<BASE64 line="62" static="1"><c path="String"/></BASE64>
+		<run public="1" set="method" line="459" static="1">
+			<f a="v">
+				<c path="String"/>
+				<d/>
+			</f>
+			<haxe_doc>Unserializes `v` and returns the according value.
+
+		This is a convenience function for creating a new instance of
+		Unserializer with `v` as buffer and calling its unserialize() method
+		once.</haxe_doc>
+		</run>
+		<base_decode line="464" static="1"><f a=":">
+	<unknown/>
+	<unknown/>
+	<t path="haxe.io.BytesData"/>
+</f></base_decode>
+		<buf><c path="String"/></buf>
+		<pos><x path="Int"/></pos>
+		<length><x path="Int"/></length>
+		<cache><c path="Array"><d/></c></cache>
+		<scache><c path="Array"><c path="String"/></c></scache>
+		<resolver><t path="haxe.TypeResolver"/></resolver>
+		<upos><x path="Int"/></upos>
+		<setResolver public="1" set="method" line="124">
+			<f a="r">
+				<t path="haxe.TypeResolver"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Sets the type resolver of `this` Unserializer instance to `r`.
+
+		If `r` is null, a special resolver is used which returns null for all
+		input values.
+
+		See DEFAULT_RESOLVER for more information on type resolvers.</haxe_doc>
+		</setResolver>
+		<readDigits set="method" line="147"><f a=""><x path="Int"/></f></readDigits>
+		<readFloat set="method" line="172"><f a=""><x path="Float"/></f></readFloat>
+		<unserializeObject set="method" line="185"><f a="o">
+	<a/>
+	<x path="Void"/>
+</f></unserializeObject>
+		<unserializeEnum set="method" line="200"><f a="edecl:tag">
+	<x path="Enum"><unknown/></x>
+	<c path="String"/>
+	<unknown/>
+</f></unserializeEnum>
+		<unserialize public="1" set="method" line="232">
+			<f a=""><d/></f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Unserializes the next part of `this` Unserializer instance and returns
+		the according value.
+
+		This function may call `this.resolver.resolveClass` to determine a
+		Class from a String, and `this.resolver.resolveEnum` to determine an
+		Enum from a String.
+
+		If `this` Unserializer instance contains no more or invalid data, an
+		exception is thrown.
+
+		This operation may fail on structurally valid data if a type cannot be
+		resolved or if a field cannot be set. This can happen when unserializing
+		Strings that were serialized on a different haxe target, in which the
+		serialization side has to make sure not to include platform-specific
+		data.
+
+		Classes are created from Type.createEmptyInstance, which means their
+		constructors are not called.</haxe_doc>
+		</unserialize>
+		<new public="1" set="method" line="99">
+			<f a="buf">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Creates a new Unserializer instance, with its internal buffer
+		initialized to `buf`.
+
+		This does not parse `buf` immediately. It is parsed only when calls to
+		`this.unserialize` are made.
+
+		Each Unserializer instance maintains its own cache.</haxe_doc>
+		</new>
+		<haxe_doc>The Unserializer class is the complement to the Serializer class. It parses
+	a serialization String and creates objects from the contained data.
+
+	This class can be used in two ways:
+
+	- create a new Unserializer() instance with a given serialization
+		String, then call its unserialize() method until all values are
+		extracted
+	- call Unserializer.run() to unserialize a single value from a given
+		String</haxe_doc>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
+	</class>
 	<abstract path="haxe.ds.HashMap" params="K:V" file="/opt/haxe/std/haxe/ds/HashMap.hx">
 		<this><c path="haxe.ds._HashMap.HashMapData">
 	<c path="haxe.ds.HashMap.K"/>
@@ -2954,12 +3503,63 @@
 			<c path="haxe.ds.IntMap.T"/>
 		</implements>
 		<h><d/></h>
+		<get public="1" set="method" line="36">
+			<f a="key">
+				<x path="Int"/>
+				<t path="Null"><c path="haxe.ds.IntMap.T"/></t>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>See `Map.get`</haxe_doc>
+		</get>
+		<keys public="1" set="method" line="48">
+			<f a=""><t path="Iterator"><x path="Int"/></t></f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>See `Map.keys`</haxe_doc>
+		</keys>
 		<new public="1" set="method" line="28">
 			<f a=""><x path="Void"/></f>
 			<meta><m n=":has_untyped"/></meta>
 			<haxe_doc>Creates a new IntMap.</haxe_doc>
 		</new>
 		<haxe_doc>IntMap allows mapping of Int keys to arbitrary values.
+
+	See `Map` for documentation details.</haxe_doc>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+			<m n=":coreApi"/>
+		</meta>
+	</class>
+	<class path="haxe.ds.ObjectMap" params="K:V" file="/opt/haxe/std/neko/_std/haxe/ds/ObjectMap.hx">
+		<implements path="haxe.IMap">
+			<c path="haxe.ds.ObjectMap.K"/>
+			<c path="haxe.ds.ObjectMap.V"/>
+		</implements>
+		<count line="27" static="1"><x path="Int"/></count>
+		<h><a/></h>
+		<k><a/></k>
+		<get public="1" set="method" line="53">
+			<f a="key">
+				<c path="haxe.ds.ObjectMap.K"/>
+				<t path="Null"><c path="haxe.ds.ObjectMap.V"/></t>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>See `Map.get`</haxe_doc>
+		</get>
+		<keys public="1" set="method" line="67">
+			<f a=""><t path="Iterator"><c path="haxe.ds.ObjectMap.K"/></t></f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>See `Map.keys`</haxe_doc>
+		</keys>
+		<new public="1" set="method" line="42">
+			<f a=""><x path="Void"/></f>
+			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Creates a new ObjectMap.</haxe_doc>
+		</new>
+		<haxe_doc>ObjectMap allows mapping of object keys to arbitrary values.
+
+	On static targets, the keys are considered to be strong references. Refer
+	to `haxe.ds.WeakMap` for a weak reference version.
 
 	See `Map` for documentation details.</haxe_doc>
 		<meta>
@@ -3095,6 +3695,13 @@
 			</f>
 			<meta><m n=":has_untyped"/></meta>
 		</alloc>
+		<ofData public="1" set="method" line="540" static="1">
+			<f a="b">
+				<t path="haxe.io.BytesData"/>
+				<c path="haxe.io.Bytes"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+		</ofData>
 		<length public="1" set="null"><x path="Int"/></length>
 		<b><t path="haxe.io.BytesData"/></b>
 		<blit public="1" set="method" line="79">
@@ -3113,6 +3720,14 @@
 	<x path="Int"/>
 	<x path="Void"/>
 </f></fill>
+		<sub public="1" set="method" line="133">
+			<f a="pos:len">
+				<x path="Int"/>
+				<x path="Int"/>
+				<c path="haxe.io.Bytes"/>
+			</f>
+			<meta><m n=":has_untyped"/></meta>
+		</sub>
 		<new set="method" line="33"><f a="length:b">
 	<x path="Int"/>
 	<t path="haxe.io.BytesData"/>
