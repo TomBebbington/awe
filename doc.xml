@@ -1758,15 +1758,24 @@
 			<c path="awe.Injector"/>
 			<haxe_doc>This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
 		</injector>
-		<update public="1" get="inline" set="null" line="93"><f a="delta">
-	<x path="Float"/>
-	<x path="Void"/>
-</f></update>
-		<delayLoop public="1" set="method" line="97"><f a="delay">
-	<x path="Float"/>
-	<c path="awe.util.Timer"/>
-</f></delayLoop>
-		<loop public="1" set="method" line="102"><f a=""><x path="Void"/></f></loop>
+		<update public="1" get="inline" set="null" line="97">
+			<f a="delta">
+				<x path="Float"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Update all the `System`s contained in this.
+		@param delta The change in time (in seconds).</haxe_doc>
+		</update>
+		<delayLoop public="1" set="method" line="107">
+			<f a="interval">
+				<x path="Float"/>
+				<c path="awe.util.Timer"/>
+			</f>
+			<haxe_doc>Automatically run all the `System`s at a given interval.
+		@param interval The interval to run the systems at (in seconds).
+		@return The timer that has been created to run this.</haxe_doc>
+		</delayLoop>
+		<loop public="1" set="method" line="112"><f a=""><x path="Void"/></f></loop>
 		<new public="1" set="method" line="47">
 			<f a="components:systems:injector">
 				<x path="Map">
@@ -1816,15 +1825,18 @@
 		</f>
 		<meta><m n=":impl"/></meta>
 	</get_id>
-	<getComposition public="1" get="inline" set="null" line="19" static="1">
+	<getComposition public="1" get="inline" set="null" line="24" static="1">
 		<f a="this:engine">
 			<x path="Int"/>
 			<c path="awe.Engine"/>
 			<x path="awe.util.BitSet"/>
 		</f>
 		<meta><m n=":impl"/></meta>
+		<haxe_doc>Finds the composition bits of this entity.
+		@param engine The engine this `Entity` is contained in.
+		@return The composition bits.</haxe_doc>
 	</getComposition>
-	<toString public="1" get="inline" set="null" line="50" static="1">
+	<toString public="1" get="inline" set="null" line="56" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<c path="String"/>
@@ -1847,15 +1859,18 @@
 			</f>
 			<meta><m n=":impl"/></meta>
 		</get_id>
-		<getComposition public="1" get="inline" set="null" line="19" static="1">
+		<getComposition public="1" get="inline" set="null" line="24" static="1">
 			<f a="this:engine">
 				<x path="Int"/>
 				<c path="awe.Engine"/>
 				<x path="awe.util.BitSet"/>
 			</f>
 			<meta><m n=":impl"/></meta>
+			<haxe_doc>Finds the composition bits of this entity.
+		@param engine The engine this `Entity` is contained in.
+		@return The composition bits.</haxe_doc>
 		</getComposition>
-		<toString public="1" get="inline" set="null" line="50" static="1">
+		<toString public="1" get="inline" set="null" line="56" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<c path="String"/>
@@ -1868,8 +1883,12 @@
 		<allSet set="null"><x path="awe.util.BitSet"/></allSet>
 		<oneSet set="null"><x path="awe.util.BitSet"/></oneSet>
 		<noneSet set="null"><x path="awe.util.BitSet"/></noneSet>
-		<toString public="1" set="method" line="101"><f a=""><c path="String"/></f></toString>
-		<matches public="1" get="inline" set="null" line="108">
+		<toString public="1" set="method" line="105">
+			<f a=""><c path="String"/></f>
+			<haxe_doc>Make a string representation of this filter.
+		@return The string representation.</haxe_doc>
+		</toString>
+		<matches public="1" get="inline" set="null" line="112">
 			<f a="components">
 				<x path="awe.util.BitSet"/>
 				<x path="Bool"/>
@@ -1878,7 +1897,7 @@
 		@param components The `BitSet` of components to check against.
 		@return If the `components` set fulfills this filter.</haxe_doc>
 		</matches>
-		<matching public="1" set="method" line="111"><f a="engine">
+		<matching public="1" set="method" line="115"><f a="engine">
 	<c path="awe.Engine"/>
 	<c path="Array"><x path="awe.Entity"/></c>
 </f></matching>
