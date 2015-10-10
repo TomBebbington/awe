@@ -1728,36 +1728,61 @@
 		<meta><m n=":extern"/></meta>
 	</class>
 	<class path="awe.Engine" params="" file="src/awe/Engine.hx">
-		<components public="1" set="null"><x path="Map">
-	<x path="awe.ComponentType"/>
-	<c path="awe.IComponentList"/>
-</x></components>
-		<systems public="1" set="null"><x path="awe.util.Bag"><c path="awe.System"/></x></systems>
-		<entities public="1" set="null"><x path="awe.util.Bag"><x path="awe.Entity"/></x></entities>
-		<compositions public="1" set="null"><x path="Map">
-	<x path="awe.Entity"/>
-	<x path="awe.util.BitSet"/>
-</x></compositions>
-		<entityCount public="1" set="null"><x path="Int"/></entityCount>
-		<injector public="1" set="null"><c path="awe.Injector"/></injector>
-		<update public="1" get="inline" set="null" line="78"><f a="delta">
+		<components public="1" set="null">
+			<x path="Map">
+				<x path="awe.ComponentType"/>
+				<c path="awe.IComponentList"/>
+			</x>
+			<haxe_doc>The component lists for each type of `Component`.</haxe_doc>
+		</components>
+		<systems public="1" set="null">
+			<x path="awe.util.Bag"><c path="awe.System"/></x>
+			<haxe_doc>The systems to run.</haxe_doc>
+		</systems>
+		<entities public="1" set="null">
+			<x path="awe.util.Bag"><x path="awe.Entity"/></x>
+			<haxe_doc>The entities that the systems run on.</haxe_doc>
+		</entities>
+		<compositions public="1" set="null">
+			<x path="Map">
+				<x path="awe.Entity"/>
+				<x path="awe.util.BitSet"/>
+			</x>
+			<haxe_doc>The composition of each entity.</haxe_doc>
+		</compositions>
+		<entityCount public="1" set="null">
+			<x path="Int"/>
+			<haxe_doc>How many entities have been created so far.</haxe_doc>
+		</entityCount>
+		<injector public="1" set="null">
+			<c path="awe.Injector"/>
+			<haxe_doc>This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
+		</injector>
+		<update public="1" get="inline" set="null" line="93"><f a="delta">
 	<x path="Float"/>
 	<x path="Void"/>
 </f></update>
-		<delayLoop public="1" set="method" line="82"><f a="delay">
+		<delayLoop public="1" set="method" line="97"><f a="delay">
 	<x path="Float"/>
 	<c path="awe.util.Timer"/>
 </f></delayLoop>
-		<loop public="1" set="method" line="87"><f a=""><x path="Void"/></f></loop>
-		<new public="1" set="method" line="32"><f a="components:systems:injector">
-	<x path="Map">
-		<x path="awe.ComponentType"/>
-		<c path="awe.IComponentList"/>
-	</x>
-	<x path="awe.util.Bag"><c path="awe.System"/></x>
-	<c path="awe.Injector"/>
-	<x path="Void"/>
-</f></new>
+		<loop public="1" set="method" line="102"><f a=""><x path="Void"/></f></loop>
+		<new public="1" set="method" line="47">
+			<f a="components:systems:injector">
+				<x path="Map">
+					<x path="awe.ComponentType"/>
+					<c path="awe.IComponentList"/>
+				</x>
+				<x path="awe.util.Bag"><c path="awe.System"/></x>
+				<c path="awe.Injector"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Construct a new engine.
+		@param components The component lists for each type of `Component`.
+		@param systems The systems to run.
+		@param injector This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
+		</new>
+		<haxe_doc>The central type of `Engine`.</haxe_doc>
 	</class>
 	<typedef path="awe.EngineSetup" params="" file="src/awe/Engine.hx" module="awe.Engine"><a>
 	<systems>

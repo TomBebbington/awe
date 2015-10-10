@@ -21,14 +21,29 @@ import awe.ComponentList;
 	import minject.Injector;
 #end
 
+/**
+	The central type of `Engine`.
+**/
 class Engine {
+	/** The component lists for each type of `Component`. **/
 	public var components(default, null): Map<ComponentType, IComponentList>;
+	/** The systems to run. **/
 	public var systems(default, null): Bag<System>;
+	/** The entities that the systems run on. **/
 	public var entities(default, null): Bag<Entity>;
+	/** The composition of each entity. **/
 	public var compositions(default, null): Map<Entity, BitSet>;
+	/** How many entities have been created so far. **/
 	public var entityCount(default, null): Int;
+	/** This is used to inject the `IComponentList` into the `System`s. **/
 	public var injector(default, null):Injector;
 
+	/** 
+		Construct a new engine.
+		@param components The component lists for each type of `Component`.
+		@param systems The systems to run.
+		@param injector This is used to inject the `IComponentList` into the `System`s.
+	**/
 	public function new(components, systems, injector) {
 		this.components = components;
 		this.systems = systems;
