@@ -1423,15 +1423,15 @@
 	</class>
 	<class path="awe.Archetype" params="" file="src/awe/Archetype.hx">
 		<types><c path="Array"><x path="awe.ComponentType"/></c></types>
-		<cid><x path="Int"/></cid>
-		<create public="1" set="method" line="36">
+		<cid><x path="awe.util.BitSet"/></cid>
+		<create public="1" set="method" line="37">
 			<f a="engine">
 				<c path="awe.Engine"/>
 				<x path="awe.Entity"/>
 			</f>
 			<meta><m n=":has_untyped"/></meta>
 		</create>
-		<createSome public="1" set="method" line="43">
+		<createSome public="1" set="method" line="45">
 			<f a="engine:count">
 				<c path="awe.Engine"/>
 				<x path="Int"/>
@@ -1439,9 +1439,9 @@
 			</f>
 			<meta><m n=":has_untyped"/></meta>
 		</createSome>
-		<new public="1" set="method" line="32">
+		<new public="1" set="method" line="33">
 			<f a="cid:types">
-				<x path="Int"/>
+				<x path="awe.util.BitSet"/>
 				<c path="Array"><x path="awe.ComponentType"/></c>
 				<x path="Void"/>
 			</f>
@@ -1536,37 +1536,37 @@
 	</class>
 	<class path="awe.ComponentList" params="" file="src/awe/ComponentList.hx">
 		<implements path="awe.IComponentList"/>
-		<genericUnserialize public="1" set="method" line="89" static="1"><f a="value">
+		<genericUnserialize public="1" set="method" line="98" static="1"><f a="value">
 	<c path="String"/>
 	<c path="awe.IComponentList"/>
 </f></genericUnserialize>
 		<capacity public="1" get="accessor" set="null"><x path="Int"/></capacity>
 		<length public="1" set="null"><x path="Int"/></length>
 		<list><x path="haxe.ds.Vector"><c path="awe.Component"/></x></list>
-		<get_capacity public="1" get="inline" set="null" line="52"><f a=""><x path="Int"/></f></get_capacity>
-		<get public="1" params="T" get="inline" set="null" line="61">
+		<get_capacity public="1" get="inline" set="null" line="61"><f a=""><x path="Int"/></f></get_capacity>
+		<get public="1" params="T" get="inline" set="null" line="70">
 			<f a="entity">
 				<x path="awe.Entity"/>
 				<t path="Null"><c path="get.T"/></t>
 			</f>
 			<meta><m n=":keep"/></meta>
 		</get>
-		<add public="1" params="T" set="method" line="64"><f a="entity:value">
+		<add public="1" params="T" set="method" line="73"><f a="entity:value">
 	<x path="awe.Entity"/>
 	<c path="add.T"/>
 	<x path="Void"/>
 </f></add>
-		<remove public="1" get="inline" set="null" line="73"><f a="entity">
+		<remove public="1" get="inline" set="null" line="82"><f a="entity">
 	<x path="awe.Entity"/>
 	<x path="Void"/>
 </f></remove>
-		<iterator public="1" get="inline" set="null" line="76"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
-		<serialize public="1" set="method" line="79"><f a=""><c path="String"/></f></serialize>
-		<unserialize public="1" set="method" line="84"><f a="value">
+		<iterator public="1" get="inline" set="null" line="85"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
+		<serialize public="1" set="method" line="88"><f a=""><c path="String"/></f></serialize>
+		<unserialize public="1" set="method" line="93"><f a="value">
 	<c path="String"/>
 	<x path="Void"/>
 </f></unserialize>
-		<new public="1" set="method" line="55"><f a="?capacity">
+		<new public="1" set="method" line="64"><f a="?capacity">
 	<x path="Int"/>
 	<x path="Void"/>
 </f></new>
@@ -1575,7 +1575,7 @@
 	<class path="awe.ComponentListItem" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList">
 		<index public="1" set="null"><x path="awe.Entity"/></index>
 		<component public="1" set="null"><c path="awe.Component"/></component>
-		<new public="1" set="method" line="105"><f a="index:component">
+		<new public="1" set="method" line="114"><f a="index:component">
 	<x path="awe.Entity"/>
 	<c path="awe.Component"/>
 	<x path="Void"/>
@@ -1585,9 +1585,9 @@
 	<class path="awe.ComponentListIterator" params="" file="src/awe/ComponentList.hx" module="awe.ComponentList">
 		<list><c path="awe.IComponentList"/></list>
 		<index><x path="Int"/></index>
-		<hasNext public="1" get="inline" set="null" line="117"><f a=""><x path="Bool"/></f></hasNext>
-		<next public="1" set="method" line="120"><f a=""><c path="awe.ComponentListItem"/></f></next>
-		<new public="1" set="method" line="114"><f a="list">
+		<hasNext public="1" get="inline" set="null" line="126"><f a=""><x path="Bool"/></f></hasNext>
+		<next public="1" set="method" line="129"><f a=""><c path="awe.ComponentListItem"/></f></next>
+		<new public="1" set="method" line="123"><f a="list">
 	<c path="awe.IComponentList"/>
 	<x path="Void"/>
 </f></new>
@@ -1597,46 +1597,37 @@
 		<implements path="awe.IComponentList"/>
 		<capacity public="1" get="accessor" set="null"><x path="Int"/></capacity>
 		<length public="1" set="null"><x path="Int"/></length>
-		<buffer><c path="awe.Component"/></buffer>
+		<buffer><t path="awe.PackedComponent"/></buffer>
 		<bytes><c path="haxe.io.Bytes"/></bytes>
 		<size><x path="Int"/></size>
-		<get_capacity public="1" get="inline" set="null" line="134"><f a=""><x path="Int"/></f></get_capacity>
-		<get public="1" params="T" get="inline" set="null" line="149">
+		<get_capacity public="1" get="inline" set="null" line="143"><f a=""><x path="Int"/></f></get_capacity>
+		<get public="1" params="T" get="inline" set="null" line="165">
 			<f a="entity">
 				<x path="awe.Entity"/>
 				<t path="Null"><c path="get.T"/></t>
 			</f>
-			<meta>
-				<m n=":has_untyped"/>
-				<m n=":keep"/>
-			</meta>
+			<meta><m n=":keep"/></meta>
 		</get>
-		<add public="1" params="T" set="method" line="154">
-			<f a="entity:value">
-				<x path="awe.Entity"/>
-				<c path="add.T"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":has_untyped"/></meta>
-		</add>
-		<remove public="1" get="inline" set="null" line="169"><f a="entity">
+		<add public="1" params="T" set="method" line="170"><f a="entity:value">
+	<x path="awe.Entity"/>
+	<c path="add.T"/>
+	<x path="Void"/>
+</f></add>
+		<remove public="1" get="inline" set="null" line="186"><f a="entity">
 	<x path="awe.Entity"/>
 	<x path="Void"/>
 </f></remove>
-		<serialize public="1" get="inline" set="null" line="172"><f a=""><c path="String"/></f></serialize>
-		<unserialize public="1" set="method" line="175"><f a="value">
+		<serialize public="1" get="inline" set="null" line="189"><f a=""><c path="String"/></f></serialize>
+		<unserialize public="1" set="method" line="192"><f a="value">
 	<c path="String"/>
 	<x path="Void"/>
 </f></unserialize>
-		<iterator public="1" get="inline" set="null" line="180"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
-		<new public="1" set="method" line="137">
-			<f a="?capacity:cl">
-				<x path="Int"/>
-				<x path="Class"><c path="awe.Component"/></x>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":has_untyped"/></meta>
-		</new>
+		<iterator public="1" get="inline" set="null" line="197"><f a=""><c path="awe.ComponentListIterator"/></f></iterator>
+		<new public="1" set="method" line="146"><f a="?capacity:size">
+	<x path="Int"/>
+	<x path="Int"/>
+	<x path="Void"/>
+</f></new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<abstract path="awe.ComponentType" params="" file="src/awe/ComponentType.hx">
@@ -1656,7 +1647,7 @@
 	<getPure public="1" get="inline" set="null" line="42" static="1">
 		<f a="this">
 			<x path="Int"/>
-			<x path="Int"/>
+			<x path="awe.ComponentType"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</getPure>
@@ -1699,7 +1690,7 @@
 		<getPure public="1" get="inline" set="null" line="42" static="1">
 			<f a="this">
 				<x path="Int"/>
-				<x path="Int"/>
+				<x path="awe.ComponentType"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</getPure>
@@ -1729,28 +1720,42 @@
 			<meta><m n=":op"><e>A!=B</e></m></meta>
 		</neq>
 	</class>
+	<class path="awe.Injector" params="" file="src/awe/Engine.hx" module="awe.Engine" interface="1">
+		<injectInto public="1" set="method"><f a="v">
+	<d/>
+	<x path="Void"/>
+</f></injectInto>
+		<meta><m n=":extern"/></meta>
+	</class>
 	<class path="awe.Engine" params="" file="src/awe/Engine.hx">
 		<components public="1" set="null"><x path="Map">
 	<x path="awe.ComponentType"/>
 	<c path="awe.IComponentList"/>
 </x></components>
 		<systems public="1" set="null"><x path="awe.util.Bag"><c path="awe.System"/></x></systems>
+		<entities public="1" set="null"><x path="awe.util.Bag"><x path="awe.Entity"/></x></entities>
+		<compositions public="1" set="null"><x path="Map">
+	<x path="awe.Entity"/>
+	<x path="awe.util.BitSet"/>
+</x></compositions>
 		<entityCount public="1" set="null"><x path="Int"/></entityCount>
-		<update public="1" get="inline" set="null" line="40"><f a="delta">
+		<injector public="1" set="null"><c path="awe.Injector"/></injector>
+		<update public="1" get="inline" set="null" line="78"><f a="delta">
 	<x path="Float"/>
 	<x path="Void"/>
 </f></update>
-		<delayLoop public="1" set="method" line="44"><f a="delay">
+		<delayLoop public="1" set="method" line="82"><f a="delay">
 	<x path="Float"/>
 	<c path="awe.util.Timer"/>
 </f></delayLoop>
-		<loop public="1" set="method" line="49"><f a=""><x path="Void"/></f></loop>
-		<new public="1" set="method" line="21"><f a="components:systems">
+		<loop public="1" set="method" line="87"><f a=""><x path="Void"/></f></loop>
+		<new public="1" set="method" line="32"><f a="components:systems:injector">
 	<x path="Map">
 		<x path="awe.ComponentType"/>
 		<c path="awe.IComponentList"/>
 	</x>
 	<x path="awe.util.Bag"><c path="awe.System"/></x>
+	<c path="awe.Injector"/>
 	<x path="Void"/>
 </f></new>
 	</class>
@@ -1759,13 +1764,19 @@
 		<t path="Null"><c path="Array"><c path="awe.System"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</systems>
+	<expectedEntityCount>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</expectedEntityCount>
 	<components>
 		<t path="Null"><c path="Array"><x path="Class"><c path="awe.Component"/></x></c></t>
 		<meta><m n=":optional"/></meta>
 	</components>
 </a></typedef>
 	<abstract path="awe.Entity" params="" file="src/awe/Entity.hx">
+		<from><icast><x path="Int"/></icast></from>
 		<this><x path="Int"/></this>
+		<to><icast><x path="Int"/></icast></to>
 		<haxe_doc>Reperesents a single glob of data.</haxe_doc>
 		<impl><class path="awe._Entity.Entity_Impl_" params="" file="src/awe/Entity.hx" private="1" module="awe.Entity">
 	<id public="1" get="accessor" set="null" static="1">
@@ -1773,14 +1784,22 @@
 		<meta><m n=":impl"/></meta>
 		<haxe_doc>The identifier of this entity.</haxe_doc>
 	</id>
-	<get_id get="inline" set="null" line="15" static="1">
+	<get_id get="inline" set="null" line="16" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="Int"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</get_id>
-	<toString public="1" get="inline" set="null" line="46" static="1">
+	<getComposition public="1" get="inline" set="null" line="19" static="1">
+		<f a="this:engine">
+			<x path="Int"/>
+			<c path="awe.Engine"/>
+			<x path="awe.util.BitSet"/>
+		</f>
+		<meta><m n=":impl"/></meta>
+	</getComposition>
+	<toString public="1" get="inline" set="null" line="50" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<c path="String"/>
@@ -1796,14 +1815,22 @@
 			<meta><m n=":impl"/></meta>
 			<haxe_doc>The identifier of this entity.</haxe_doc>
 		</id>
-		<get_id get="inline" set="null" line="15" static="1">
+		<get_id get="inline" set="null" line="16" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="Int"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</get_id>
-		<toString public="1" get="inline" set="null" line="46" static="1">
+		<getComposition public="1" get="inline" set="null" line="19" static="1">
+			<f a="this:engine">
+				<x path="Int"/>
+				<c path="awe.Engine"/>
+				<x path="awe.util.BitSet"/>
+			</f>
+			<meta><m n=":impl"/></meta>
+		</getComposition>
+		<toString public="1" get="inline" set="null" line="50" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<c path="String"/>
@@ -1826,6 +1853,10 @@
 		@param components The `BitSet` of components to check against.
 		@return If the `components` set fulfills this filter.</haxe_doc>
 		</matches>
+		<matching public="1" set="method" line="111"><f a="engine">
+	<c path="awe.Engine"/>
+	<c path="Array"><x path="awe.Entity"/></c>
+</f></matching>
 		<new public="1" set="method" line="49"><f a="allSet:oneSet:noneSet">
 	<x path="awe.util.BitSet"/>
 	<x path="awe.util.BitSet"/>
@@ -1862,6 +1893,10 @@
 	})
 	```]]></haxe_doc>
 	</class>
+	<typedef path="awe.PackedComponent" params="" file="src/awe/PackedComponent.hx"><a>
+	<__offset><x path="Int"/></__offset>
+	<__bytes><c path="haxe.io.Bytes"/></__bytes>
+</a></typedef>
 	<class path="awe.System" params="" file="src/awe/System.hx">
 		<engine public="1" set="null">
 			<c path="awe.Engine"/>
@@ -1876,15 +1911,15 @@
 			<haxe_doc>Check if this system should be processed.
 		@return If this should be processed or not.</haxe_doc>
 		</shouldProcess>
-		<inititialize public="1" set="method" line="27">
+		<initialize public="1" set="method" line="27">
 			<f a="engine">
 				<c path="awe.Engine"/>
 				<x path="Void"/>
 			</f>
 			<haxe_doc>Initializes this system in the `Engine`.
 		@param engine The `Engine` to initialize this in.</haxe_doc>
-		</inititialize>
-		<update public="1" set="method" line="34">
+		</initialize>
+		<update public="1" set="method" line="36">
 			<f a="delta">
 				<x path="Float"/>
 				<x path="Void"/>
@@ -1904,8 +1939,20 @@
 			<c path="awe.Filter"/>
 			<haxe_doc>The filter to check an entity against before adding to this system.</haxe_doc>
 		</filter>
-		<matchers public="1" set="null"><x path="awe.util.Bag"><x path="Int"/></x></matchers>
-		<new public="1" set="method" line="41"><f a="filter">
+		<matchers public="1" set="null">
+			<x path="awe.util.Bag"><x path="awe.Entity"/></x>
+			<haxe_doc>The entities that match the `filter`.</haxe_doc>
+		</matchers>
+		<updateEntity public="1" set="method" line="49"><f a="delta:entity">
+	<x path="Float"/>
+	<x path="awe.Entity"/>
+	<x path="Void"/>
+</f></updateEntity>
+		<update public="1" set="method" line="50" override="1"><f a="delta">
+	<x path="Float"/>
+	<x path="Void"/>
+</f></update>
+		<new public="1" set="method" line="44"><f a="filter">
 	<c path="awe.Filter"/>
 	<x path="Void"/>
 </f></new>
@@ -2999,6 +3046,23 @@
 		</on>
 		<haxe_doc>Capable of listening to a signal of type T.</haxe_doc>
 	</class>
+	<class path="awe.util.StringTools" params="" file="src/awe/util/StringTools.hx">
+		<isVowel public="1" set="method" line="5" static="1">
+			<f a="char">
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>Returns true if this char a vowel.</haxe_doc>
+		</isVowel>
+		<pluralize public="1" set="method" line="12" static="1">
+			<f a="word">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>Transform `word` into a plural.</haxe_doc>
+		</pluralize>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
 	<typedef path="awe.util.Thread" params="" file="src/awe/util/Thread.hx"><c path="neko.vm.Thread"/></typedef>
 	<class path="awe.util.Timer" params="" file="src/awe/util/Timer.hx">
 		<stamp public="1" get="inline" set="null" line="22" static="1"><f a=""><x path="Float"/></f></stamp>
@@ -3909,89 +3973,6 @@
 </a></c></path>
 	<mode><e path="haxe.macro.ImportMode"/></mode>
 </a></typedef>
-	<typedef path="haxe.macro.JSGenApi" params="" file="/opt/haxe/std/haxe/macro/JSGenApi.hx">
-		<a>
-			<types>
-				<c path="Array"><e path="haxe.macro.Type"/></c>
-				<haxe_doc>all the types that were compiled by Haxe</haxe_doc>
-			</types>
-			<setTypeAccessor set="method">
-				<f a="callb">
-					<f a="">
-						<e path="haxe.macro.Type"/>
-						<c path="String"/>
-					</f>
-					<x path="Void"/>
-				</f>
-				<haxe_doc>define the JS code that gets generated when a class or enum is accessed in a typed expression</haxe_doc>
-			</setTypeAccessor>
-			<setCurrentClass set="method">
-				<f a="c">
-					<t path="haxe.macro.ClassType"/>
-					<x path="Void"/>
-				</f>
-				<haxe_doc>select the current classe</haxe_doc>
-			</setCurrentClass>
-			<quoteString set="method">
-				<f a="s">
-					<c path="String"/>
-					<c path="String"/>
-				</f>
-				<haxe_doc>quote and escape the given string constant</haxe_doc>
-			</quoteString>
-			<outputFile>
-				<c path="String"/>
-				<haxe_doc>the file in which the JS code can be generated</haxe_doc>
-			</outputFile>
-			<main>
-				<t path="Null"><t path="haxe.macro.TypedExpr"/></t>
-				<haxe_doc>the main call expression, if a -main class is defined</haxe_doc>
-			</main>
-			<isKeyword set="method">
-				<f a="ident">
-					<c path="String"/>
-					<x path="Bool"/>
-				</f>
-				<haxe_doc>tells if the given identifier is a JS keyword</haxe_doc>
-			</isKeyword>
-			<hasFeature set="method">
-				<f a="f">
-					<c path="String"/>
-					<x path="Bool"/>
-				</f>
-				<haxe_doc>check if a feature is used</haxe_doc>
-			</hasFeature>
-			<generateValue set="method">
-				<f a="e">
-					<t path="haxe.macro.TypedExpr"/>
-					<c path="String"/>
-				</f>
-				<haxe_doc>generate the JS code for a given typed expression-value</haxe_doc>
-			</generateValue>
-			<generateStatement set="method">
-				<f a="e">
-					<t path="haxe.macro.TypedExpr"/>
-					<c path="String"/>
-				</f>
-				<haxe_doc>generate the JS code for any given typed expression</haxe_doc>
-			</generateStatement>
-			<buildMetaData set="method">
-				<f a="t">
-					<t path="haxe.macro.BaseType"/>
-					<t path="Null"><t path="haxe.macro.TypedExpr"/></t>
-				</f>
-				<haxe_doc>create the metadata expression for the given type</haxe_doc>
-			</buildMetaData>
-			<addFeature set="method">
-				<f a="f">
-					<c path="String"/>
-					<x path="Bool"/>
-				</f>
-				<haxe_doc>add a feature</haxe_doc>
-			</addFeature>
-		</a>
-		<haxe_doc>This is the api that is passed to the custom JS generator.</haxe_doc>
-	</typedef>
 	<typedef path="haxe.macro.Ref" params="T" file="/opt/haxe/std/haxe/macro/Type.hx" module="haxe.macro.Type"><a>
 	<toString set="method"><f a=""><c path="String"/></f></toString>
 	<get set="method"><f a=""><c path="haxe.macro.Ref.T"/></f></get>
@@ -4311,38 +4292,4 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<typedef path="sys.FileStat" params="" file="/opt/haxe/std/sys/FileStat.hx">
-		<a>
-			<uid>
-				<x path="Int"/>
-				<haxe_doc>the user id for the file</haxe_doc>
-			</uid>
-			<size>
-				<x path="Int"/>
-				<haxe_doc>the size of the file</haxe_doc>
-			</size>
-			<rdev><x path="Int"/></rdev>
-			<nlink><x path="Int"/></nlink>
-			<mtime>
-				<c path="Date"/>
-				<haxe_doc>the last modification time for the file</haxe_doc>
-			</mtime>
-			<mode><x path="Int"/></mode>
-			<ino><x path="Int"/></ino>
-			<gid>
-				<x path="Int"/>
-				<haxe_doc>the user group id for the file</haxe_doc>
-			</gid>
-			<dev><x path="Int"/></dev>
-			<ctime>
-				<c path="Date"/>
-				<haxe_doc>the creation time for the file</haxe_doc>
-			</ctime>
-			<atime>
-				<c path="Date"/>
-				<haxe_doc>the last access time for the file (when enabled by the file system)</haxe_doc>
-			</atime>
-		</a>
-		<haxe_doc>File informations, as given by [sys.FileSystem.stat]</haxe_doc>
-	</typedef>
 </haxe>
