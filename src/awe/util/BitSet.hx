@@ -190,7 +190,7 @@ abstract BitSet(Bag<Int>) {
 	}
 
 	@:from public static inline function fromArray(array: Array<Int>): BitSet
-		return cast array;
+		return cast Bag.fromArray(array);
 
 	/**
 		Create a string representation of this set and return it.

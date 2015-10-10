@@ -1,5 +1,6 @@
 package awe;
 
+#if macro
 import haxe.macro.Context;
 import haxe.macro.Compiler;
 import haxe.macro.Expr;
@@ -7,6 +8,8 @@ import haxe.macro.Type;
 using haxe.macro.ComplexTypeTools;
 using haxe.macro.ExprTools;
 using haxe.macro.TypeTools;
+using awe.util.MacroTools;
+#end
 import awe.util.ClassMap;
 
 typedef MType = haxe.macro.Type;
@@ -15,7 +18,9 @@ typedef MType = haxe.macro.Type;
 	Raw data to be attached to an `Entity`. Should contain absolutely no logic
 	and should be serializable. This will be automatically pooled or packed.
 **/
+#if !macro
 @:autoBuild(awe.Component.AutoComponent.from())
+#end
 @:keepSub
 interface Component {
 	/**
@@ -92,28 +97,7 @@ class AutoComponent {
 				throw t.toString() + " cannot be set to";
 		};
 	}
-	static function sizeOf(t: ComplexType): Int {
-		return switch(t) {
-			case TPath({name: "Bool", pack: [], params: []}):
-				1;
-			case TPath({name: "Int" | "Single", pack: [], params: []}):
-				4;
-			case TPath({name: "Float", pack: [], params: []} | {name: "Int64", pack: ["haxe"], params: []}):
-				8;
-			case TPath(_):
-				var ty = Context.getType(t.toString());
-				switch(Context.follow(ty)) {
-					case TEnum(_, []):
-						4;
-					case TAbstract(ty, []):
-						sizeOf(ty.get().type.toComplexType());
-					default: null;
-				}
-			default:
-				throw t.toString() + " has no size";
-		};
-	}
-	static function isPrimitive(t: ComplexType): Bool {
+	public static function isPrimitive(t: ComplexType): Bool {
 		return switch(t) {
 			case TPath({name: "Bool" | "Int" | "Single" | "Float", pack: [], params: []})
 			| TPath({name: "Int64", pack: ["haxe"], params: []}):
@@ -134,12 +118,12 @@ class AutoComponent {
 				false;
 		};
 	}
-	static function totalSize(fields: Array<Field>): Int {
+	public static function totalSize(fields: Array<Field>): Int {
 		var size = 0;
 		for(f in fields)
 			switch(f.kind) {
 				case FieldType.FVar(t, _):
-					size += sizeOf(t);
+					size += t.sizeOf();
 				default:
 			}
 		return size;
@@ -186,6 +170,8 @@ class AutoComponent {
 		var fields = Context.getBuildFields();
 		var offset = 0;
 		var localClass = Context.getLocalClass().get();
+		if(localClass.isInterface)
+			return fields;
 		if(localClass.superClass != null)
 			return defaultFields(fields);
 		for(field in fields) {
@@ -237,7 +223,7 @@ class AutoComponent {
 								}
 							]
 						});
-						offset += sizeOf(t);
+						offset += t.sizeOf();
 					}
 				default:
 			}
@@ -274,14 +260,6 @@ class AutoComponent {
 			}),
 			access: [
 				Access.AInline, Access.APublic
-			]
-		});
-		fields.push({
-			name: "__size",
-			pos: Context.currentPos(),
-			kind: FieldType.FVar(macro: Int, macro $v{offset}),
-			access: [
-				Access.AStatic, Access.APublic
 			]
 		});
 		return fields;

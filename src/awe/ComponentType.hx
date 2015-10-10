@@ -10,7 +10,7 @@ import haxe.macro.Expr;
 /** A Unique Identifier for a class implementing Component */
 abstract ComponentType(Int) from Int to Int {
 	#if macro
-	static var count:Int = 0;
+	static var count:Int = 1;
 	public static var types(default, never) = new Map<String, ComponentType>();
 
 	public static function get(ty: Type): awe.ComponentType {
@@ -18,7 +18,7 @@ abstract ComponentType(Int) from Int to Int {
 		return if(types.exists(tys)) 
 			types.get(tys)
 		else {
-			var cty = ++count;
+			var cty = count++;
 			if(Component.AutoComponent.canPack(ty))
 				cty |= PACKED_FLAG;
 			types.set(tys, cty);
@@ -31,15 +31,15 @@ abstract ComponentType(Int) from Int to Int {
 
 	#end
 
-	public static macro function of(ty: Expr): ExprOf<ComponentType>
-		return Context.makeExpr(get(ty.resolveTypeLiteral()), Context.currentPos());
+	public static macro function of(ty: ExprOf<Class<Dynamic>>): ExprOf<ComponentType>
+		return macro cast($v{get(ty.resolveTypeLiteral())}, ComponentType);
 
 
 	static inline var PACKED_FLAG = 1 << 31;
 	public inline function isPacked():Bool
 		return this & PACKED_FLAG != 0;
 
-	public inline function getPure():Int
+	public inline function getPure():ComponentType
 		return this & ~PACKED_FLAG;
 
 

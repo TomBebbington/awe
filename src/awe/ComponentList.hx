@@ -1,5 +1,14 @@
 package awe;
 
+#if macro
+import haxe.macro.Context;
+import haxe.macro.Compiler;
+import haxe.macro.Expr;
+using haxe.macro.ComplexTypeTools;
+using haxe.macro.ExprTools;
+using haxe.macro.TypeTools;
+using awe.util.MacroTools;
+#end
 import haxe.ds.Vector;
 import haxe.io.Bytes;
 import haxe.Serializer;
@@ -128,37 +137,50 @@ class ComponentListIterator {
 class PackedComponentList implements IComponentList {
 	public var capacity(get, never): Int;
 	public var length(default, null): Int;
-	var buffer: Component;
+	var buffer: PackedComponent;
 	var bytes: Bytes;
 	var size: Int;
 	public inline function get_capacity(): Int
 		return bytes.length;
 
-	public function new(capacity: Int = 32, cl: Class<Component>) {
-		buffer = Type.createEmptyInstance(cl);
+	public function new(capacity: Int = 32, size: Int) {
+		buffer = cast {};
 		length = 0;
-		size = untyped cl.__size;
-		if(size == null)
-			throw Type.getClassName(cl) + " is not packed";
+		this.size = size;
 		bytes = Bytes.alloc(capacity * size);
-		untyped buffer.__bytes = bytes;
-		untyped buffer.__offset = 0;
+		buffer.__bytes = bytes;
+		buffer.__offset = 0;
+	}
+
+	public static macro function build(of: ExprOf<Class<Component>>): ExprOf<PackedComponentList> {
+		var ty = of.resolveTypeLiteral();
+		var cty = ComponentType.get(ty);
+		if(!cty.isPacked())
+			Context.error("Component type is not packed", of.pos);
+		var size = of.resolveTypeLiteral().toComplexType().sizeOf();
+		return macro new PackedComponentList(null, $v{size});
 	}
 
 	@:keep
 	public inline function get<T: Component>(entity: Entity): Null<T> {
-		untyped buffer.__offset = entity.id * size;
+		buffer.__offset = entity.id * size;
 		return entity.id >= length ? null : cast buffer;
 	}
 
 	public function add<T: Component>(entity: Entity, value: T): Void {
-		if(entity.id * size > capacity) {
+		var value:PackedComponent = cast value;
+		if((entity.id + 1) * size > capacity) {
 			var nbytes = Bytes.alloc(capacity << 1);
 			nbytes.blit(0, bytes, 0, bytes.length);
 			bytes = nbytes;
 		}
-		bytes.blit(entity.id * size, untyped value.__bytes, 0, size);
-		untyped value.__bytes = bytes;
+		if(value == null)
+			bytes.fill(entity.id * size, size, 0);
+		else {
+			bytes.blit(entity.id * size, value.__bytes, 0, size);
+			value.__bytes = bytes;
+			value.__offset = entity.id * size;
+		}
 		length = Std.int(Math.max(length, entity.id + 1));
 	}
 	public inline function remove(entity: Entity): Void

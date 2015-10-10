@@ -24,8 +24,10 @@ class System {
 		Initializes this system in the `Engine`.
 		@param engine The `Engine` to initialize this in.
 	**/
-	public function inititialize(engine: Engine): Void
+	public function initialize(engine: Engine): Void {
 		this.engine = engine;
+		engine.injector.injectInto(this);
+	}
 
 	/**
 		Updates this system.
@@ -37,10 +39,17 @@ class System {
 class EntitySystem extends System {
 	/** The filter to check an entity against before adding to this system. **/
 	public var filter(default, null): Filter;
-	public var matchers(default, null): Bag<Int>;
+	/** The entities that match the `filter`. **/
+	public var matchers(default, null): Bag<Entity>;
 	public function new(filter: Filter) {
 		super();
 		this.filter = filter;
 		this.matchers = new Bag();
+	}
+	public function updateEntity(delta:Float, entity: Entity): Void {}
+	public override function update(delta: Float):Void {
+		for(entity in engine.entities)
+			if(filter.matches(entity.getComposition(engine)))
+				updateEntity(delta, entity);
 	}
 }

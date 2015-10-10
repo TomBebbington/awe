@@ -7,18 +7,22 @@ using haxe.macro.ExprTools;
 using haxe.macro.TypeTools;
 import haxe.macro.Expr;
 using awe.util.MacroTools;
+import awe.util.BitSet;
 
 /** Reperesents a single glob of data. */
-abstract Entity(Int) {
+abstract Entity(Int) to Int from Int {
 	/** The identifier of this entity. **/
 	public var id(get, never): Int;
 	inline function get_id(): Int
 		return this;
 
+	public inline function getComposition(engine: Engine): BitSet
+		return engine.compositions.get(this);
+
 	#if macro
 
 	static function wrapGet(engine: ExprOf<Entity>, ty: Type, cty: ComponentType) {
-		var list = macro $engine.components.get($v{cty});
+		var list = macro $engine.components.get($v{cty.getPure()});
 		return Context.defined("debug") ? macro {
 			var list = $list;
 			if(list == null)

@@ -1,10 +1,12 @@
 -cp src
+-lib minject
 -main Main
 -neko awe.n
 -dce std
 -cmd neko awe.n
 -debug
 --next
+-lib minject
 -dce full
 -cp src
 -main Main

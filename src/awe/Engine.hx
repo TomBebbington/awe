@@ -1,51 +1,72 @@
 package awe;
-
+#if macro
 import haxe.macro.Context;
-import haxe.macro.Type;
 using haxe.macro.ComplexTypeTools;
 using haxe.macro.TypeTools;
 using haxe.macro.ExprTools;
 using awe.util.MacroTools;
 import haxe.macro.Expr;
+#end
+import minject.Injector;
 import haxe.io.Bytes;
 import awe.util.Timer;
 import awe.util.Bag;
+import awe.util.BitSet;
+import awe.util.StringTools;
 import awe.ComponentList;
 
 class Engine {
 	public var components(default, null): Map<ComponentType, IComponentList>;
 	public var systems(default, null): Bag<System>;
+	public var entities(default, null): Bag<Entity>;
+	public var compositions(default, null): Map<Entity, BitSet>;
+	public var entityCount(default, null): Int;
+	public var injector(default, null):Injector;
 
-	public function new() {
-		components = new Map();
-		systems = new Bag();
+	public function new(components, systems, injector) {
+		this.components = components;
+		this.systems = systems;
+		this.injector = injector;
+		entities = new Bag();
+		compositions = new Map();
+		entityCount = 0;
+		for(system in systems)
+			system.initialize(this);
 	}
 	public static macro function build(setup: ExprOf<EngineSetup>): ExprOf<Engine> {
-		var components: Array<Expr> = [];
-		var systems: Expr = macro [];
-		switch(setup.expr) {
-			case EObjectDecl(fields):
-				for(field in fields)
-					switch(field.field) {
-						case "systems":
-							systems = field.expr;
-						case "components":
-							for(component in field.expr.getArray()) {
-								var ty = component.resolveTypeLiteral();
-								var cty = awe.ComponentType.get(ty);
-								var list = cty.isPacked() ? macro new PackedComponentList($component) : macro new ComponentList();
-								components.push(macro $v{cty} => $list);
-							}
-					}
-			default:
-				Context.error("`Engine.setup` requires object", Context.currentPos());
-		}
+		var debug = Context.defined("debug");
+		if(debug)
+			Sys.println("Setting up Engine..");
+		var expectedCount: Null<Int> = setup.getField("expectedEntityCount").getValue();
+		var components = [for(component in setup.assertField("components").getArray()) {
+			var cty = ComponentType.get(component.resolveTypeLiteral());
+			var list = cty.isPacked() ? macro PackedComponentList.build($component) : macro new ComponentList($v{expectedCount});
+			macro $v{cty.getPure()} => $list;
+		}];
+		var systems = setup.assertField("systems").getArray();
 		var components = { expr: ExprDef.EArrayDecl(components), pos: setup.pos };
-		return macro {
-			var engine:Engine = Type.createEmptyInstance(Engine);
-			untyped engine.components = $components;
-			untyped engine.systems = awe.util.Bag.fromArray($systems);
-			engine;
+		var block = [
+			(macro var components:Map<ComponentType, IComponentList> = $components),
+			(macro var systems:awe.util.Bag<System> = new awe.util.Bag($v{systems.length})),
+			(macro var csystem:System = null),
+			macro var injector = new minject.Injector()
+		];
+		var i = 0;
+		for(system in systems) {
+			var ty = Context.typeof(system);
+			block.push(macro systems.add(csystem = $system));
+			block.push(macro injector.mapType($v{ty.toString()}, csystem).toValue(csystem));
+		}
+		for(component in setup.assertField("components").getArray()) {
+			var cty = ComponentType.get(component.resolveTypeLiteral());
+			var parts = component.toString().split(".");
+			var name = StringTools.pluralize(parts[parts.length - 1].toLowerCase());
+			block.push(macro injector.mapType('awe.IComponentList', $v{name}).toValue(components.get($v{cty.getPure()})));
+		}
+		block.push(macro new Engine(components, systems, injector));
+		return {
+			expr: ExprDef.EBlock(block),
+			pos: Context.currentPos()
 		};
 	}
 	public inline function update(delta: Float)
@@ -68,6 +89,7 @@ class Engine {
 	}
 }
 typedef EngineSetup = {
+	?expectedEntityCount: Int,
 	?components: Array<Class<Component>>,
 	?systems: Array<System>
 }

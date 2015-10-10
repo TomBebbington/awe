@@ -1,5 +1,6 @@
 import awe.Component;
 import awe.ComponentType;
+import awe.PackedComponent;
 import awe.Engine;
 import awe.Entity;
 import awe.Archetype;
@@ -16,60 +17,54 @@ enum Direction {
 class Position implements Component {
 	public var x: Float;
 	public var y: Float;
-	public function new(x: Float, y:Float) {
-		this.x = x;
-		this.y = y;
-	}
+	public function new(x: Float, y:Float)
+		set(x, y);
+
 	public inline function set(x: Float, y: Float) {
 		this.x = x;
 		this.y = y;
 	}
-	public inline function length() {
-		return Math.sqrt(x * x + y * y);
-	}
-	public inline function toString(): String
-		return Std.string(x) + ", " + Std.string(y);
 }
 class Velocity implements Component {
 	public var x: Float;
 	public var y: Float;
-	public function new(x: Float, y:Float) {
-		this.x = x;
-		this.y = y;
-	}
+	public function new(x: Float, y:Float)
+		set(x, y);
+
 	public inline function set(x: Float, y: Float) {
 		this.x = x;
 		this.y = y;
 	}
-	public inline function length() {
-		return Math.sqrt(x * x + y * y);
-	}
-	public inline function toString(): String
-		return Std.string(x) + ", " + Std.string(y);
 }
 
 class MovementSystem extends EntitySystem {
+	@inject('positions') public var positions: awe.IComponentList;
+	@inject('velocities') public var velocities: awe.IComponentList;
 	public override function new() {
 		super(Filter.build(Position & Velocity));
 	}
-	public override function update(delta: Float): Void
-		trace(delta);
+	public override function updateEntity(delta: Float, entity: Entity): Void {
+		var pos: Position = positions.get(entity);
+		var vel: Velocity = velocities.get(entity);
+		pos.x += vel.x * delta;
+		pos.y += vel.y * delta;
+	}
 }
 
 class Main {
 	static function main() {
 		var engine = Engine.build({
 			components: [Position, Velocity],
-			systems: [new MovementSystem()]
+			systems: [new MovementSystem()],
+			expectedEntityCount: 1
 		});
-		var entity: Entity = cast 0;
+		var player = Archetype.build(Position, Velocity);
+		var entity = player.create(engine);
 		entity.add(engine, new Position(3, 4));
-		var pos = ComponentType.of(Position);
-		var positions = engine.components.get(pos);
-		var serial = positions.serialize();
-		var pos: Position = positions.get(entity);
-		pos.x = 0;
-		trace(entity.get(engine, Position));
+		entity.add(engine, new Velocity(1, -1));
+		var pos: Position = entity.get(engine, Position);
+		trace(pos.x, pos.y);
 		engine.update(3);
+		trace(pos.x, pos.y);
 	}
 }
