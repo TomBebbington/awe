@@ -9,7 +9,9 @@ import haxe.macro.Expr;
 using awe.util.MacroTools;
 import awe.util.BitSet;
 
-/** Reperesents a single glob of data. */
+/**
+	Reperesents a single thing in a `World`.
+**/
 abstract Entity(Int) to Int from Int {
 	/** The identifier of this entity. **/
 	public var id(get, never): Int;
@@ -36,7 +38,21 @@ abstract Entity(Int) to Int from Int {
 		} : list;
 	}
 	#end
-
+	#if doc
+	/**
+		Add the component to the `Engine`, and attach it to this entity.
+		@param engine The engine this entity is in.
+		@param value The component to attach to this entity.
+	**/
+	@:extern public static function add<T: Component>(engine: Engine, value: T): Void;
+	/**
+		Retrieve the component attached to this entity from the `Engine`.
+		@param engine The engine this entity is in.
+		@param kind The component type to find.
+		@return The component of the type given.
+	**/
+	@:extern public static function get<T: Component>(engine: Engine, kind: Class<T>): Null<T>;
+	#else
 
 	public macro function add<T: Component>(self: ExprOf<Entity>, engine: ExprOf<Engine>, value: ExprOf<T>): ExprOf<Void> {
 		var ty = Context.typeof(value);
@@ -51,7 +67,7 @@ abstract Entity(Int) to Int from Int {
 		var list = wrapGet(engine, ty, cty);
 		return macro $list.get($self);
 	}
-
+	#end
 	/** Returns the string representation of this data. */
 	public inline function toString():String
 		return "#" + Std.string(this);
