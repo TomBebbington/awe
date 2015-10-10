@@ -7,17 +7,17 @@ using haxe.macro.ExprTools;
 using awe.util.MacroTools;
 import haxe.macro.Expr;
 #end
-#if doc
-	typedef Injector = {};
-#else
-	import minject.Injector;
-#end
 import haxe.io.Bytes;
 import awe.util.Timer;
 import awe.util.Bag;
 import awe.util.BitSet;
 import awe.util.StringTools;
 import awe.ComponentList;
+#if doc
+	typedef Injector = {};
+#else
+	import minject.Injector;
+#end
 
 class Engine {
 	public var components(default, null): Map<ComponentType, IComponentList>;
