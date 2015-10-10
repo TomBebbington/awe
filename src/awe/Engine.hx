@@ -7,7 +7,11 @@ using haxe.macro.ExprTools;
 using awe.util.MacroTools;
 import haxe.macro.Expr;
 #end
-import minject.Injector;
+#if doc
+	typedef Injector = {};
+#else
+	import minject.Injector;
+#end
 import haxe.io.Bytes;
 import awe.util.Timer;
 import awe.util.Bag;
