@@ -14,7 +14,9 @@ import awe.util.BitSet;
 import awe.util.StringTools;
 import awe.ComponentList;
 #if doc
-	typedef Injector = {};
+	@:extern interface Injector {
+		public function injectInto(v: Dynamic): Void;
+	}
 #else
 	import minject.Injector;
 #end
