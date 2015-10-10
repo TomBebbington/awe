@@ -1811,21 +1811,21 @@
 		<from><icast><x path="Int"/></icast></from>
 		<this><x path="Int"/></this>
 		<to><icast><x path="Int"/></icast></to>
-		<haxe_doc>Reperesents a single glob of data.</haxe_doc>
+		<haxe_doc>Reperesents a single thing in a `World`.</haxe_doc>
 		<impl><class path="awe._Entity.Entity_Impl_" params="" file="src/awe/Entity.hx" private="1" module="awe.Entity">
 	<id public="1" get="accessor" set="null" static="1">
 		<x path="Int"/>
 		<meta><m n=":impl"/></meta>
 		<haxe_doc>The identifier of this entity.</haxe_doc>
 	</id>
-	<get_id get="inline" set="null" line="16" static="1">
+	<get_id get="inline" set="null" line="18" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="Int"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</get_id>
-	<getComposition public="1" get="inline" set="null" line="24" static="1">
+	<getComposition public="1" get="inline" set="null" line="26" static="1">
 		<f a="this:engine">
 			<x path="Int"/>
 			<c path="awe.Engine"/>
@@ -1836,7 +1836,28 @@
 		@param engine The engine this `Entity` is contained in.
 		@return The composition bits.</haxe_doc>
 	</getComposition>
-	<toString public="1" get="inline" set="null" line="56" static="1">
+	<add public="1" params="T" set="method" line="47" static="1">
+		<f a="engine:value">
+			<c path="awe.Engine"/>
+			<c path="add.T"/>
+			<x path="Void"/>
+		</f>
+		<haxe_doc>Add the component to the `Engine`, and attach it to this entity.
+		@param engine The engine this entity is in.
+		@param value The component to attach to this entity.</haxe_doc>
+	</add>
+	<get public="1" params="T" set="method" line="54" static="1">
+		<f a="engine:kind">
+			<c path="awe.Engine"/>
+			<x path="Class"><c path="get.T"/></x>
+			<t path="Null"><c path="get.T"/></t>
+		</f>
+		<haxe_doc>Retrieve the component attached to this entity from the `Engine`.
+		@param engine The engine this entity is in.
+		@param kind The component type to find.
+		@return The component of the type given.</haxe_doc>
+	</get>
+	<toString public="1" get="inline" set="null" line="72" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<c path="String"/>
@@ -1852,14 +1873,14 @@
 			<meta><m n=":impl"/></meta>
 			<haxe_doc>The identifier of this entity.</haxe_doc>
 		</id>
-		<get_id get="inline" set="null" line="16" static="1">
+		<get_id get="inline" set="null" line="18" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="Int"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</get_id>
-		<getComposition public="1" get="inline" set="null" line="24" static="1">
+		<getComposition public="1" get="inline" set="null" line="26" static="1">
 			<f a="this:engine">
 				<x path="Int"/>
 				<c path="awe.Engine"/>
@@ -1870,7 +1891,28 @@
 		@param engine The engine this `Entity` is contained in.
 		@return The composition bits.</haxe_doc>
 		</getComposition>
-		<toString public="1" get="inline" set="null" line="56" static="1">
+		<add public="1" params="T" set="method" line="47" static="1">
+			<f a="engine:value">
+				<c path="awe.Engine"/>
+				<c path="add.T"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Add the component to the `Engine`, and attach it to this entity.
+		@param engine The engine this entity is in.
+		@param value The component to attach to this entity.</haxe_doc>
+		</add>
+		<get public="1" params="T" set="method" line="54" static="1">
+			<f a="engine:kind">
+				<c path="awe.Engine"/>
+				<x path="Class"><c path="get.T"/></x>
+				<t path="Null"><c path="get.T"/></t>
+			</f>
+			<haxe_doc>Retrieve the component attached to this entity from the `Engine`.
+		@param engine The engine this entity is in.
+		@param kind The component type to find.
+		@return The component of the type given.</haxe_doc>
+		</get>
+		<toString public="1" get="inline" set="null" line="72" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<c path="String"/>
