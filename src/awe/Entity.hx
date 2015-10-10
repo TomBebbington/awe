@@ -44,14 +44,14 @@ abstract Entity(Int) to Int from Int {
 		@param engine The engine this entity is in.
 		@param value The component to attach to this entity.
 	**/
-	@:extern public static function add<T: Component>(engine: Engine, value: T): Void;
+	extern public static function add<T: Component>(engine: Engine, value: T): Void;
 	/**
 		Retrieve the component attached to this entity from the `Engine`.
 		@param engine The engine this entity is in.
 		@param kind The component type to find.
 		@return The component of the type given.
 	**/
-	@:extern public static function get<T: Component>(engine: Engine, kind: Class<T>): Null<T>;
+	extern public static function get<T: Component>(engine: Engine, kind: Class<T>): Null<T>;
 	#else
 
 	public macro function add<T: Component>(self: ExprOf<Entity>, engine: ExprOf<Engine>, value: ExprOf<T>): ExprOf<Void> {
