@@ -90,13 +90,23 @@ class Engine {
 			pos: Context.currentPos()
 		};
 	}
+	/**
+		Update all the `System`s contained in this.
+		@param delta The change in time (in seconds).
+	**/
 	public inline function update(delta: Float)
 		for(system in systems)
-			system.update(delta);
+			if(system.shouldProcess())
+				system.update(delta);
 
-	public function delayLoop(delay: Float): Timer {
-		var timer = new Timer(Std.int(delay * 1000));
-		timer.run = update.bind(delay);
+	/**
+		Automatically run all the `System`s at a given interval.
+		@param interval The interval to run the systems at (in seconds).
+		@return The timer that has been created to run this.
+	**/
+	public function delayLoop(interval: Float): Timer {
+		var timer = new Timer(Std.int(interval * 1000));
+		timer.run = update.bind(interval);
 		return timer;
 	}
 	public function loop() {

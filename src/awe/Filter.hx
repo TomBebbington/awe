@@ -98,6 +98,10 @@ class Filter {
 		innerBuild(expr);
 		return macro new Filter($v{all.toBag().toArray()}, $v{one.toBag().toArray()}, $v{none.toBag().toArray()});
 	}
+	/**
+		Make a string representation of this filter.
+		@return The string representation.
+	**/
 	public function toString()
 		return "all: " + allSet + "; one: " + oneSet + "; none: " + noneSet;
 	/**

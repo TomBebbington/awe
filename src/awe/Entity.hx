@@ -16,6 +16,11 @@ abstract Entity(Int) to Int from Int {
 	inline function get_id(): Int
 		return this;
 
+	/**
+		Finds the composition bits of this entity.
+		@param engine The engine this `Entity` is contained in.
+		@return The composition bits.
+	**/
 	public inline function getComposition(engine: Engine): BitSet
 		return engine.compositions.get(this);
 
@@ -31,6 +36,7 @@ abstract Entity(Int) to Int from Int {
 		} : list;
 	}
 	#end
+
 
 	public macro function add<T: Component>(self: ExprOf<Entity>, engine: ExprOf<Engine>, value: ExprOf<T>): ExprOf<Void> {
 		var ty = Context.typeof(value);
