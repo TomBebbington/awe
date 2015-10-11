@@ -96,7 +96,7 @@ class Filter {
 			}
 		};
 		innerBuild(expr);
-		return macro new Filter($v{all.toBag().toArray()}, $v{one.toBag().toArray()}, $v{none.toBag().toArray()});
+		return macro new Filter(${all.wrapBits()}, ${one.wrapBits()}, ${none.wrapBits()});
 	}
 	/**
 		Make a string representation of this filter.
@@ -109,8 +109,9 @@ class Filter {
 		@param components The `BitSet` of components to check against.
 		@return If the `components` set fulfills this filter.
 	**/
-	public inline function matches(components: BitSet): Bool
-		return (allSet.contains(components) || oneSet.intersects(components)) && !noneSet.intersects(components);
+	public inline function matches(components: BitSet): Bool {
+		return (components.contains(allSet) || oneSet.intersects(components)) && !noneSet.intersects(components);
+	}
 
 	public function matching(engine: Engine): Array<Entity> {
 		return [for(i in 0...engine.entityCount) cast i];

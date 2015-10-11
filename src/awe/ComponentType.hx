@@ -21,6 +21,8 @@ abstract ComponentType(Int) from Int to Int {
 			var cty = count++;
 			if(Component.AutoComponent.canPack(ty))
 				cty |= PACKED_FLAG;
+			if(Component.AutoComponent.isEmpty(ty))
+				cty |= EMPTY_FLAG;
 			types.set(tys, cty);
 			count;
 		}
@@ -31,23 +33,30 @@ abstract ComponentType(Int) from Int to Int {
 
 	#end
 
-	public static macro function of(ty: ExprOf<Class<Dynamic>>): ExprOf<ComponentType>
+	public static macro function of(ty: ExprOf<Class<Dynamic>>): ExprOf<ComponentType> {
 		return macro cast($v{get(ty.resolveTypeLiteral())}, ComponentType);
+	}
 
 
-	static inline var PACKED_FLAG = 1 << 31;
+	public static inline var PACKED_FLAG = 1 << 31;
+	public static inline var EMPTY_FLAG = 1 << 30;
+	public inline function isEmpty():Bool
+		return this & EMPTY_FLAG != 0;
+
 	public inline function isPacked():Bool
 		return this & PACKED_FLAG != 0;
 
 	public inline function getPure():ComponentType
-		return this & ~PACKED_FLAG;
+		return this & ~PACKED_FLAG & ~EMPTY_FLAG;
 
-
-	/** Add this to the Int given. */
-	public inline function addTo(value:Int): Int
-		return value | (1 << (this ^ PACKED_FLAG));
-	@:op(A == B) static inline function eq(a: ComponentType, b: ComponentType): Bool
-		return (a & ~PACKED_FLAG) == (b & ~PACKED_FLAG);
-	@:op(A != B) static inline function neq(a: ComponentType, b: ComponentType): Bool
-		return (a & ~PACKED_FLAG) != (b & ~PACKED_FLAG);
+	@:op(A == B) static inline function eq(a: ComponentType, b: ComponentType): Bool {
+		var a: Int = a.getPure();
+		var b: Int = b.getPure();
+		return a == b;
+	}
+	@:op(A != B) static inline function neq(a: ComponentType, b: ComponentType): Bool {
+		var a: Int = a.getPure();
+		var b: Int = b.getPure();
+		return a != b;
+	}
 }

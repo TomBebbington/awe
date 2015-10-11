@@ -4,13 +4,13 @@ import awe.Filter;
 import awe.util.Bag;
 /** A basic system. **/
 class System {
-	/** The engine that contains this sytem. **/
+	/** The engine that contains this system. **/
 	public var engine(default, null): Engine;
 	/** If this system is enabled or not. **/
 	public var enabled: Bool;
 	/** Create a new, empty system. **/
 	public function new() {
-		enabled = false;
+		enabled = true;
 		engine = null;
 	}
 	/**
@@ -46,10 +46,17 @@ class EntitySystem extends System {
 		this.filter = filter;
 		this.matchers = new Bag();
 	}
-	public function updateEntity(delta:Float, entity: Entity): Void {}
-	public override function update(delta: Float):Void {
+	public function updateMatchers():Void {
+		matchers.clear();
 		for(entity in engine.entities)
 			if(filter.matches(entity.getComposition(engine)))
-				updateEntity(delta, entity);
+				matchers.add(entity);
+	}
+	public function updateEntity(delta:Float, entity: Entity): Void {}
+	public override function update(delta: Float):Void {
+		if(matchers.length ==  0)
+			updateMatchers();
+		for(entity in matchers)
+			updateEntity(delta, entity);
 	}
 }

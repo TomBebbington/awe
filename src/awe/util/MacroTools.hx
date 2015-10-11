@@ -10,9 +10,38 @@ using haxe.macro.Context;
 /** Some handy macro tools. **/
 class MacroTools {
 	#if macro
+	public static function wrapBits(bits: BitSet):ExprOf<BitSet> {
+		var bag = bits.toBag();
+		var pos = Context.currentPos();
+		return switch(bag.length) {
+			case 0: macro new awe.util.BitSet();
+			case 1: macro new awe.util.BitSet($v{bag.get(0)});
+			default:
+				var block = [
+					{
+						expr: ExprDef.EVars([
+							{
+								type: macro: awe.util.Bag<Int>,
+								expr: macro new awe.util.Bag<Int>($v{bag.length}),
+								name: "bag"
+							}
+						]),
+						pos: pos
+					}
+				];
+				for(item in bag)
+					block.push(macro bag.add($v{item}));
+				block.push(macro untyped bag);
+				{
+					expr: ExprDef.EBlock(block),
+					pos: pos
+				};
+		}
+	}
 	public static function getArray(value: Expr): Array<Expr> {
 		return switch(value.expr) {
-			case EArrayDecl(values): values;
+			case EArrayDecl(values):
+				values;
 			default:
 				Context.error("Expected array declaration", value.pos);
 				null;
@@ -44,32 +73,15 @@ class MacroTools {
 			};
 		if(!isValid(literal))
 			Context.error("Invalid type literal", literal.pos);
-		return Context.getType(literal.toString());
+		return try {
+			Context.getType(literal.toString());
+		} catch(e: Dynamic) {
+			Context.error(Std.string(e), literal.pos);
+		}
 	}
 
 	static inline function formatName(pack: Array<String>, name: String)
 		return [name].concat(pack).join(".");
-
-	public static function toString(ty: Type):String
-		return switch(ty) {
-			case Type.TInst(cl, _):
-				formatName(cl.get().pack, cl.get().name);
-			case Type.TAbstract(ab, _):
-				formatName(ab.get().pack, ab.get().name);
-			case Type.TDynamic(_): "Dynamic";
-			case Type.TEnum(en, _):
-				formatName(en.get().pack, en.get().name);
-			case Type.TFun(args, ret):
-				args.map(function(arg) return toString(arg.t)).join(" -> ") + " -> " + toString(ret);
-			case Type.TAnonymous(an):
-				"{ " + an.get().fields.map(function(field) return field.name + ": " + toString(field.type)) + " }";
-			case Type.TType(ty, ps):
-				formatName(ty.get().pack, ty.get().name);
-			case Type.TMono(mo):
-				toString(mo.get());
-			case Type.TLazy(f):
-				toString(f());
-		};
 
 	public static function sizeOf(ty: ComplexType):Int {
 		var size = switch(ty) {

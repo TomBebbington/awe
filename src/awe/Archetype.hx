@@ -5,11 +5,12 @@ import haxe.macro.Context;
 import haxe.macro.Type;
 using haxe.macro.ComplexTypeTools;
 using haxe.macro.TypeTools;
+using haxe.macro.ExprTools;
 import haxe.macro.Expr;
+using awe.util.MacroTools;
 #end
 import awe.util.Bag;
 import awe.util.BitSet;
-import awe.util.MacroTools;
 /**
 	Blueprints for fast `Entity` construction.
 
@@ -34,10 +35,23 @@ class Archetype {
 		this.cid = cid;
 		this.types = types;
 	}
+	/**
+		Create a new `Entity` with the components given by this `Archetype`.
+		@param engine The engine to create the entity in.
+		@return The created entity.
+	**/
 	public function create(engine: Engine): Entity {
 		var entity:Entity = untyped engine.entityCount++;
-		for(type in types)
-			engine.components.get(type).add(entity, null);
+		for(type in types) {
+			if(!type.isEmpty()) {
+				var list = engine.components.get(type.getPure());
+				#if debug
+				if(list == null)
+					throw 'Component list for $type is null!';
+				#end
+				list.add(entity, null);
+			}
+		}
 		engine.entities.add(entity);
 		engine.compositions.set(entity, cid);
 		return entity;
@@ -59,12 +73,12 @@ class Archetype {
 	**/
 	public static macro function build(types: Array<ExprOf<Class<Component>>>): ExprOf<Archetype> {
 		var cid = new BitSet();
-		var types = [for(ty in types) {
-			var ty = MacroTools.resolveTypeLiteral(ty);
-			var cty = awe.ComponentType.get(ty).getPure();
-			cid.setBit(cty);
+		var types = [for(tye in types) {
+			var ty = MacroTools.resolveTypeLiteral(tye);
+			var cty = awe.ComponentType.get(ty);
+			cid.setBit(cty.getPure());
 			macro $v{cty};
 		}];
-		return macro new Archetype(BitSet.fromArray($v{cid.toBag().toArray()}), ${{expr: ExprDef.EArrayDecl(types), pos: Context.currentPos()}});
+		return macro new Archetype(${cid.wrapBits()}, ${{expr: ExprDef.EArrayDecl(types), pos: Context.currentPos()}});
 	}
 }

@@ -127,10 +127,12 @@ abstract BitSet(Bag<Int>) {
 		@return If it is contained in this or not.
 	**/
 	public function contains(set: BitSet): Bool {
+		var other: BitSet = cast this;
 		var length = Std.int(Math.min(this.capacity, set.toBag().capacity));
-		for(i in 0...length)
-			if(this[i] != set.toBag()[i])
+		for(i in 0...length) {
+			if(set.toBag()[i] & ~this[i] != 0)
 				return false;
+		}
 		return true;
 	}
 
@@ -178,7 +180,7 @@ abstract BitSet(Bag<Int>) {
 	**/
 	@:arrayAccess
 	public inline function get(index: Int): Bool
-		return this[wordIndex(index)] & (1 << (index % 32)) != 0;
+		return this[wordIndex(index)] & (1 << (index & 0xFF)) != 0;
 
 	/**
 		Convert this to `Bytes`.

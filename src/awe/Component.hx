@@ -145,34 +145,31 @@ class AutoComponent {
 		return fields;
 	}
 
+	public static function isEmpty(ty: Type): Bool {
+		return switch(ty) {
+			case Type.TInst(_.get() => c, []) if(c.superClass == null && c.meta.has("Empty")):
+				true;
+			default:
+				false;
+		};
+	}
+
 	public static function canPack(ty: Type): Bool {
 		return switch(ty) {
 			case Type.TAbstract(ab, []):
 				canPack(ab.get().type);
-			case Type.TInst(ct, []):
-				var c = ct.get();
-				c.superClass == null && {
-					var packed = true;
-					for(field in c.fields.get()) {
-						switch(field.kind) {
-							case FieldKind.FVar(_, _):
-								packed = packed && canPack(field.type);
-							default:
-						}
-					}
-					packed;
-				};
-			default: isPrimitive(ty.toComplexType());
-		}
+			case Type.TInst(_.get() => c, []) if(c.superClass == null && c.meta.has("Pack")):
+				true;
+			default:
+				isPrimitive(ty.toComplexType());
+		};
 	}
 
 	public static macro function from():Array<Field> {
 		var fields = Context.getBuildFields();
 		var offset = 0;
 		var localClass = Context.getLocalClass().get();
-		if(localClass.isInterface)
-			return fields;
-		if(localClass.superClass != null)
+		if(!localClass.meta.has("Pack") || localClass.meta.has("Empty") || localClass.superClass != null)
 			return defaultFields(fields);
 		for(field in fields) {
 			switch(field.kind) {
@@ -255,7 +252,7 @@ class AutoComponent {
 			pos: Context.currentPos(),
 			kind: FieldType.FFun({
 				ret: macro: awe.ComponentType,
-				expr: macro return cast $v{ComponentType.getLocal() | (1 << 31)},
+				expr: macro return cast $v{ComponentType.getLocal() | ComponentType.PACKED_FLAG},
 				args: []
 			}),
 			access: [

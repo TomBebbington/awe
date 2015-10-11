@@ -1,0 +1,4 @@
+-lib awe
+-main Pong
+-js build/pong.js
+-dce full

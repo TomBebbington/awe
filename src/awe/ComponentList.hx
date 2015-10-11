@@ -158,7 +158,7 @@ class PackedComponentList implements IComponentList {
 		if(!cty.isPacked())
 			Context.error("Component type is not packed", of.pos);
 		var size = of.resolveTypeLiteral().toComplexType().sizeOf();
-		return macro new PackedComponentList(null, $v{size});
+		return macro new PackedComponentList(32, $v{size});
 	}
 
 	@:keep
@@ -169,7 +169,7 @@ class PackedComponentList implements IComponentList {
 
 	public function add<T: Component>(entity: Entity, value: T): Void {
 		var value:PackedComponent = cast value;
-		if((entity.id + 1) * size > capacity) {
+		if(entity.id * size >= capacity) {
 			var nbytes = Bytes.alloc(capacity << 1);
 			nbytes.blit(0, bytes, 0, bytes.length);
 			bytes = nbytes;
