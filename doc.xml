@@ -1229,6 +1229,18 @@
 		</meta>
 	</class>
 	<class path="StringTools" params="" file="/opt/haxe/std/StringTools.hx">
+		<endsWith public="1" set="method" line="153" static="1">
+			<f a="s:end">
+				<c path="String"/>
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>Tells if the string `s` ends with the string `end`.
+
+		If `end` is null, the result is unspecified.
+
+		If `end` is the empty String "", the result is true.</haxe_doc>
+		</endsWith>
 		<_urlEncode line="422" static="1"><f a="">
 	<unknown/>
 	<c path="String"/>
@@ -1424,14 +1436,17 @@
 	<class path="awe.Archetype" params="" file="src/awe/Archetype.hx">
 		<types><c path="Array"><x path="awe.ComponentType"/></c></types>
 		<cid><x path="awe.util.BitSet"/></cid>
-		<create public="1" set="method" line="37">
+		<create public="1" set="method" line="43">
 			<f a="engine">
 				<c path="awe.Engine"/>
 				<x path="awe.Entity"/>
 			</f>
 			<meta><m n=":has_untyped"/></meta>
+			<haxe_doc>Create a new `Entity` with the components given by this `Archetype`.
+		@param engine The engine to create the entity in.
+		@return The created entity.</haxe_doc>
 		</create>
-		<createSome public="1" set="method" line="45">
+		<createSome public="1" set="method" line="59">
 			<f a="engine:count">
 				<c path="awe.Engine"/>
 				<x path="Int"/>
@@ -1439,7 +1454,7 @@
 			</f>
 			<meta><m n=":has_untyped"/></meta>
 		</createSome>
-		<new public="1" set="method" line="33">
+		<new public="1" set="method" line="34">
 			<f a="cid:types">
 				<x path="awe.util.BitSet"/>
 				<c path="Array"><x path="awe.ComponentType"/></c>
@@ -1636,31 +1651,30 @@
 		<to><icast><x path="Int"/></icast></to>
 		<haxe_doc>A Unique Identifier for a class implementing Component</haxe_doc>
 		<impl><class path="awe._ComponentType.ComponentType_Impl_" params="" file="src/awe/ComponentType.hx" private="1" module="awe.ComponentType">
-	<PACKED_FLAG get="inline" set="null" line="38" static="1"><x path="Int"/></PACKED_FLAG>
-	<isPacked public="1" get="inline" set="null" line="39" static="1">
+	<PACKED_FLAG public="1" get="inline" set="null" line="41" static="1"><x path="Int"/></PACKED_FLAG>
+	<EMPTY_FLAG public="1" get="inline" set="null" line="42" static="1"><x path="Int"/></EMPTY_FLAG>
+	<isEmpty public="1" get="inline" set="null" line="43" static="1">
+		<f a="this">
+			<x path="Int"/>
+			<x path="Bool"/>
+		</f>
+		<meta><m n=":impl"/></meta>
+	</isEmpty>
+	<isPacked public="1" get="inline" set="null" line="46" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="Bool"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</isPacked>
-	<getPure public="1" get="inline" set="null" line="42" static="1">
+	<getPure public="1" get="inline" set="null" line="49" static="1">
 		<f a="this">
 			<x path="Int"/>
 			<x path="awe.ComponentType"/>
 		</f>
 		<meta><m n=":impl"/></meta>
 	</getPure>
-	<addTo public="1" get="inline" set="null" line="47" static="1">
-		<f a="this:value">
-			<x path="Int"/>
-			<x path="Int"/>
-			<x path="Int"/>
-		</f>
-		<meta><m n=":impl"/></meta>
-		<haxe_doc>Add this to the Int given.</haxe_doc>
-	</addTo>
-	<eq get="inline" set="null" line="49" static="1">
+	<eq get="inline" set="null" line="52" static="1">
 		<f a="a:b">
 			<x path="awe.ComponentType"/>
 			<x path="awe.ComponentType"/>
@@ -1668,7 +1682,7 @@
 		</f>
 		<meta><m n=":op"><e>A==B</e></m></meta>
 	</eq>
-	<neq get="inline" set="null" line="51" static="1">
+	<neq get="inline" set="null" line="57" static="1">
 		<f a="a:b">
 			<x path="awe.ComponentType"/>
 			<x path="awe.ComponentType"/>
@@ -1679,31 +1693,30 @@
 </class></impl>
 	</abstract>
 	<class path="awe._ComponentType.ComponentType_Impl_" params="" file="src/awe/ComponentType.hx" private="1" module="awe.ComponentType">
-		<PACKED_FLAG get="inline" set="null" line="38" static="1"><x path="Int"/></PACKED_FLAG>
-		<isPacked public="1" get="inline" set="null" line="39" static="1">
+		<PACKED_FLAG public="1" get="inline" set="null" line="41" static="1"><x path="Int"/></PACKED_FLAG>
+		<EMPTY_FLAG public="1" get="inline" set="null" line="42" static="1"><x path="Int"/></EMPTY_FLAG>
+		<isEmpty public="1" get="inline" set="null" line="43" static="1">
+			<f a="this">
+				<x path="Int"/>
+				<x path="Bool"/>
+			</f>
+			<meta><m n=":impl"/></meta>
+		</isEmpty>
+		<isPacked public="1" get="inline" set="null" line="46" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="Bool"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</isPacked>
-		<getPure public="1" get="inline" set="null" line="42" static="1">
+		<getPure public="1" get="inline" set="null" line="49" static="1">
 			<f a="this">
 				<x path="Int"/>
 				<x path="awe.ComponentType"/>
 			</f>
 			<meta><m n=":impl"/></meta>
 		</getPure>
-		<addTo public="1" get="inline" set="null" line="47" static="1">
-			<f a="this:value">
-				<x path="Int"/>
-				<x path="Int"/>
-				<x path="Int"/>
-			</f>
-			<meta><m n=":impl"/></meta>
-			<haxe_doc>Add this to the Int given.</haxe_doc>
-		</addTo>
-		<eq get="inline" set="null" line="49" static="1">
+		<eq get="inline" set="null" line="52" static="1">
 			<f a="a:b">
 				<x path="awe.ComponentType"/>
 				<x path="awe.ComponentType"/>
@@ -1711,7 +1724,7 @@
 			</f>
 			<meta><m n=":op"><e>A==B</e></m></meta>
 		</eq>
-		<neq get="inline" set="null" line="51" static="1">
+		<neq get="inline" set="null" line="57" static="1">
 			<f a="a:b">
 				<x path="awe.ComponentType"/>
 				<x path="awe.ComponentType"/>
@@ -1739,6 +1752,10 @@
 			<x path="awe.util.Bag"><c path="awe.System"/></x>
 			<haxe_doc>The systems to run.</haxe_doc>
 		</systems>
+		<managers public="1" set="null">
+			<x path="awe.util.Bag"><c path="awe.Manager"/></x>
+			<haxe_doc>The managers.</haxe_doc>
+		</managers>
 		<entities public="1" set="null">
 			<x path="awe.util.Bag"><x path="awe.Entity"/></x>
 			<haxe_doc>The entities that the systems run on.</haxe_doc>
@@ -1758,7 +1775,7 @@
 			<c path="awe.Injector"/>
 			<haxe_doc>This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
 		</injector>
-		<update public="1" get="inline" set="null" line="97">
+		<update public="1" get="inline" set="null" line="115">
 			<f a="delta">
 				<x path="Float"/>
 				<x path="Void"/>
@@ -1766,7 +1783,7 @@
 			<haxe_doc>Update all the `System`s contained in this.
 		@param delta The change in time (in seconds).</haxe_doc>
 		</update>
-		<delayLoop public="1" set="method" line="107">
+		<delayLoop public="1" set="method" line="125">
 			<f a="interval">
 				<x path="Float"/>
 				<c path="awe.util.Timer"/>
@@ -1775,14 +1792,15 @@
 		@param interval The interval to run the systems at (in seconds).
 		@return The timer that has been created to run this.</haxe_doc>
 		</delayLoop>
-		<loop public="1" set="method" line="112"><f a=""><x path="Void"/></f></loop>
-		<new public="1" set="method" line="47">
-			<f a="components:systems:injector">
+		<loop public="1" set="method" line="130"><f a=""><x path="Void"/></f></loop>
+		<new public="1" set="method" line="49">
+			<f a="components:systems:managers:injector">
 				<x path="Map">
 					<x path="awe.ComponentType"/>
 					<c path="awe.IComponentList"/>
 				</x>
 				<x path="awe.util.Bag"><c path="awe.System"/></x>
+				<x path="awe.util.Bag"><c path="awe.Manager"/></x>
 				<c path="awe.Injector"/>
 				<x path="Void"/>
 			</f>
@@ -1798,6 +1816,10 @@
 		<t path="Null"><c path="Array"><c path="awe.System"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</systems>
+	<managers>
+		<t path="Null"><c path="Array"><c path="awe.Manager"/></c></t>
+		<meta><m n=":optional"/></meta>
+	</managers>
 	<expectedEntityCount>
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
@@ -1939,7 +1961,7 @@
 		@param components The `BitSet` of components to check against.
 		@return If the `components` set fulfills this filter.</haxe_doc>
 		</matches>
-		<matching public="1" set="method" line="115"><f a="engine">
+		<matching public="1" set="method" line="116"><f a="engine">
 	<c path="awe.Engine"/>
 	<c path="Array"><x path="awe.Entity"/></c>
 </f></matching>
@@ -1979,6 +2001,34 @@
 	})
 	```]]></haxe_doc>
 	</class>
+	<class path="awe.Manager" params="" file="src/awe/Manager.hx">
+		<engine public="1" set="null">
+			<c path="awe.Engine"/>
+			<haxe_doc>The engine that contains this manager.</haxe_doc>
+		</engine>
+		<initialize public="1" set="method" line="10">
+			<f a="engine">
+				<c path="awe.Engine"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Initializes this manager in the `Engine`.
+		@param engine The `Engine` to initialize this in.</haxe_doc>
+		</initialize>
+		<added public="1" set="method" line="17">
+			<f a="entity">
+				<x path="awe.Entity"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Called when an entity is added to the engine.</haxe_doc>
+		</added>
+		<removed public="1" set="method" line="21">
+			<f a="entity">
+				<x path="awe.Entity"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Called when an entity is deleted from the engine.</haxe_doc>
+		</removed>
+	</class>
 	<typedef path="awe.PackedComponent" params="" file="src/awe/PackedComponent.hx"><a>
 	<__offset><x path="Int"/></__offset>
 	<__bytes><c path="haxe.io.Bytes"/></__bytes>
@@ -1986,7 +2036,7 @@
 	<class path="awe.System" params="" file="src/awe/System.hx">
 		<engine public="1" set="null">
 			<c path="awe.Engine"/>
-			<haxe_doc>The engine that contains this sytem.</haxe_doc>
+			<haxe_doc>The engine that contains this system.</haxe_doc>
 		</engine>
 		<enabled public="1">
 			<x path="Bool"/>
@@ -2029,12 +2079,13 @@
 			<x path="awe.util.Bag"><x path="awe.Entity"/></x>
 			<haxe_doc>The entities that match the `filter`.</haxe_doc>
 		</matchers>
-		<updateEntity public="1" set="method" line="49"><f a="delta:entity">
+		<updateMatchers public="1" set="method" line="49"><f a=""><x path="Void"/></f></updateMatchers>
+		<updateEntity public="1" set="method" line="55"><f a="delta:entity">
 	<x path="Float"/>
 	<x path="awe.Entity"/>
 	<x path="Void"/>
 </f></updateEntity>
-		<update public="1" set="method" line="50" override="1"><f a="delta">
+		<update public="1" set="method" line="56" override="1"><f a="delta">
 	<x path="Float"/>
 	<x path="Void"/>
 </f></update>
@@ -2042,6 +2093,66 @@
 	<c path="awe.Filter"/>
 	<x path="Void"/>
 </f></new>
+	</class>
+	<class path="awe.managers.GroupManager" params="" file="src/awe/managers/GroupManager.hx">
+		<extends path="awe.Manager"/>
+		<groups><x path="Map">
+	<c path="String"/>
+	<x path="awe.util.Bag"><x path="awe.Entity"/></x>
+</x></groups>
+		<add public="1" set="method" line="18">
+			<f a="entity:group">
+				<x path="awe.Entity"/>
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Set the group of the entity.
+		@param entity The entity whose group is being set.
+		@param group The group to set the entity to.</haxe_doc>
+		</add>
+		<getEntities public="1" get="inline" set="null" line="23"><f a="group">
+	<c path="String"/>
+	<x path="awe.util.Bag"><x path="awe.Entity"/></x>
+</f></getEntities>
+		<getGroups public="1" set="method" line="31">
+			<f a="entity">
+				<x path="awe.Entity"/>
+				<x path="awe.util.Bag"><c path="String"/></x>
+			</f>
+			<haxe_doc>Get all groups the entity belongs to..
+		@param entity The entity to get the groups of.
+		@return The groups it belongs to.</haxe_doc>
+		</getGroups>
+		<isInGroup public="1" get="inline" set="null" line="45">
+			<f a="entity:group">
+				<x path="awe.Entity"/>
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>Check if the entity is in the group.
+		@param entity The entity to check.
+		@param group The group to check the ntity is contained in.
+		@return If the entity is in the group.</haxe_doc>
+		</isInGroup>
+		<remove public="1" get="inline" set="null" line="53">
+			<f a="entity:group">
+				<x path="awe.Entity"/>
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Remove the entity from the specified group.
+		@param entity The entity to remove from the group.
+		@param group The group to remove the entity from.</haxe_doc>
+		</remove>
+		<removeGroup public="1" get="inline" set="null" line="60">
+			<f a="group">
+				<c path="String"/>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Completely remove the group.
+		@param group The group to remove.</haxe_doc>
+		</removeGroup>
+		<new public="1" set="method" line="9"><f a=""><x path="Void"/></f></new>
 	</class>
 	<abstract path="awe.util.Bag" params="T" file="src/awe/util/Bag.hx">
 		<from>
@@ -2624,7 +2735,7 @@
 		@param set The set to check is contained inside this one.
 		@return If it is contained in this or not.</haxe_doc>
 	</contains>
-	<intersects public="1" set="method" line="142" static="1">
+	<intersects public="1" set="method" line="144" static="1">
 		<f a="this:set">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<x path="awe.util.BitSet"/>
@@ -2635,7 +2746,7 @@
 		@param set The set to check has at least one bit in common with this one.
 		@return If it intersects this or not.</haxe_doc>
 	</intersects>
-	<and public="1" set="method" line="155" static="1">
+	<and public="1" set="method" line="157" static="1">
 		<f a="this:set">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<x path="awe.util.BitSet"/>
@@ -2648,7 +2759,7 @@
 		<haxe_doc>Perform a bitwise AND on this and `set`.
 		@param set The set to run AND on.</haxe_doc>
 	</and>
-	<or public="1" set="method" line="167" static="1">
+	<or public="1" set="method" line="169" static="1">
 		<f a="this:set">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<x path="awe.util.BitSet"/>
@@ -2661,7 +2772,7 @@
 		<haxe_doc>Perform a bitwise OR on this and `set`.
 		@param set The set to run OR on.</haxe_doc>
 	</or>
-	<get public="1" get="inline" set="null" line="180" static="1">
+	<get public="1" get="inline" set="null" line="182" static="1">
 		<f a="this:index">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<x path="Int"/>
@@ -2675,7 +2786,7 @@
 		@param index The index to get the bit of.
 		@return The bit at `index`.</haxe_doc>
 	</get>
-	<toBytes public="1" get="inline" set="null" line="187" static="1">
+	<toBytes public="1" get="inline" set="null" line="189" static="1">
 		<f a="this">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<c path="haxe.io.Bytes"/>
@@ -2687,14 +2798,14 @@
 		<haxe_doc>Convert this to `Bytes`.
 		@return The converted value.</haxe_doc>
 	</toBytes>
-	<fromArray public="1" get="inline" set="null" line="192" static="1">
+	<fromArray public="1" get="inline" set="null" line="194" static="1">
 		<f a="array">
 			<c path="Array"><x path="Int"/></c>
 			<x path="awe.util.BitSet"/>
 		</f>
 		<meta><m n=":from"/></meta>
 	</fromArray>
-	<toString public="1" set="method" line="199" static="1">
+	<toString public="1" set="method" line="201" static="1">
 		<f a="this">
 			<x path="awe.util.Bag"><x path="Int"/></x>
 			<c path="String"/>
@@ -2870,7 +2981,7 @@
 		@param set The set to check is contained inside this one.
 		@return If it is contained in this or not.</haxe_doc>
 		</contains>
-		<intersects public="1" set="method" line="142" static="1">
+		<intersects public="1" set="method" line="144" static="1">
 			<f a="this:set">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<x path="awe.util.BitSet"/>
@@ -2881,7 +2992,7 @@
 		@param set The set to check has at least one bit in common with this one.
 		@return If it intersects this or not.</haxe_doc>
 		</intersects>
-		<and public="1" set="method" line="155" static="1">
+		<and public="1" set="method" line="157" static="1">
 			<f a="this:set">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<x path="awe.util.BitSet"/>
@@ -2894,7 +3005,7 @@
 			<haxe_doc>Perform a bitwise AND on this and `set`.
 		@param set The set to run AND on.</haxe_doc>
 		</and>
-		<or public="1" set="method" line="167" static="1">
+		<or public="1" set="method" line="169" static="1">
 			<f a="this:set">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<x path="awe.util.BitSet"/>
@@ -2907,7 +3018,7 @@
 			<haxe_doc>Perform a bitwise OR on this and `set`.
 		@param set The set to run OR on.</haxe_doc>
 		</or>
-		<get public="1" get="inline" set="null" line="180" static="1">
+		<get public="1" get="inline" set="null" line="182" static="1">
 			<f a="this:index">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<x path="Int"/>
@@ -2921,7 +3032,7 @@
 		@param index The index to get the bit of.
 		@return The bit at `index`.</haxe_doc>
 		</get>
-		<toBytes public="1" get="inline" set="null" line="187" static="1">
+		<toBytes public="1" get="inline" set="null" line="189" static="1">
 			<f a="this">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<c path="haxe.io.Bytes"/>
@@ -2933,14 +3044,14 @@
 			<haxe_doc>Convert this to `Bytes`.
 		@return The converted value.</haxe_doc>
 		</toBytes>
-		<fromArray public="1" get="inline" set="null" line="192" static="1">
+		<fromArray public="1" get="inline" set="null" line="194" static="1">
 			<f a="array">
 				<c path="Array"><x path="Int"/></c>
 				<x path="awe.util.BitSet"/>
 			</f>
 			<meta><m n=":from"/></meta>
 		</fromArray>
-		<toString public="1" set="method" line="199" static="1">
+		<toString public="1" set="method" line="201" static="1">
 			<f a="this">
 				<x path="awe.util.Bag"><x path="Int"/></x>
 				<c path="String"/>
@@ -3002,6 +3113,23 @@
 		<haxe_doc>Allows mapping of classes to abritary values.</haxe_doc>
 	</class>
 	<class path="awe.util.MacroTools" params="" file="src/awe/util/MacroTools.hx"><haxe_doc>Some handy macro tools.</haxe_doc></class>
+	<class path="awe.util.MoreStringTools" params="" file="src/awe/util/MoreStringTools.hx">
+		<isVowel public="1" set="method" line="7" static="1">
+			<f a="char">
+				<c path="String"/>
+				<x path="Bool"/>
+			</f>
+			<haxe_doc>Returns true if this char a vowel.</haxe_doc>
+		</isVowel>
+		<pluralize public="1" set="method" line="14" static="1">
+			<f a="word">
+				<c path="String"/>
+				<c path="String"/>
+			</f>
+			<haxe_doc>Transform `word` into a plural.</haxe_doc>
+		</pluralize>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
 	<abstract path="awe.util.Signal" params="T" file="src/awe/util/Signal.hx">
 		<this><x path="awe.util.Bag"><c path="awe.util.SignalListener"><c path="awe.util.Signal.T"/></c></x></this>
 		<to><icast field="getListeners"><x path="awe.util.Bag"><c path="awe.util.SignalListener"><c path="awe.util.Signal.T"/></c></x></icast></to>
@@ -3131,23 +3259,6 @@
 		@param event The event to process.</haxe_doc>
 		</on>
 		<haxe_doc>Capable of listening to a signal of type T.</haxe_doc>
-	</class>
-	<class path="awe.util.StringTools" params="" file="src/awe/util/StringTools.hx">
-		<isVowel public="1" set="method" line="5" static="1">
-			<f a="char">
-				<c path="String"/>
-				<x path="Bool"/>
-			</f>
-			<haxe_doc>Returns true if this char a vowel.</haxe_doc>
-		</isVowel>
-		<pluralize public="1" set="method" line="12" static="1">
-			<f a="word">
-				<c path="String"/>
-				<c path="String"/>
-			</f>
-			<haxe_doc>Transform `word` into a plural.</haxe_doc>
-		</pluralize>
-		<meta><m n=":directlyUsed"/></meta>
 	</class>
 	<typedef path="awe.util.Thread" params="" file="src/awe/util/Thread.hx"><c path="neko.vm.Thread"/></typedef>
 	<class path="awe.util.Timer" params="" file="src/awe/util/Timer.hx">
