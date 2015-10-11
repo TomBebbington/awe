@@ -38,7 +38,7 @@ abstract Entity(Int) to Int from Int {
 		} : list;
 	}
 	#end
-	#if doc-gen
+	#if doc
 	/**
 		Add the component to the `Engine`, and attach it to this entity.
 		@param engine The engine this entity is in.
