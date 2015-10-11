@@ -13,7 +13,7 @@ import awe.util.Bag;
 import awe.util.BitSet;
 using awe.util.MoreStringTools;
 import awe.ComponentList;
-#if doc-gen
+#if doc
 	@:extern interface Injector {
 		public function injectInto(v: Dynamic): Void;
 	}
