@@ -42,6 +42,7 @@ class Engine {
 
 	/** 
 		Construct a new engine.
+		Note: `Engine.build` should be preferred.
 		@param components The component lists for each type of `Component`.
 		@param systems The systems to run.
 		@param injector This is used to inject the `IComponentList` into the `System`s.

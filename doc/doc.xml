@@ -1775,7 +1775,7 @@
 			<c path="awe.Injector"/>
 			<haxe_doc>This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
 		</injector>
-		<update public="1" get="inline" set="null" line="115">
+		<update public="1" get="inline" set="null" line="116">
 			<f a="delta">
 				<x path="Float"/>
 				<x path="Void"/>
@@ -1783,7 +1783,7 @@
 			<haxe_doc>Update all the `System`s contained in this.
 		@param delta The change in time (in seconds).</haxe_doc>
 		</update>
-		<delayLoop public="1" set="method" line="125">
+		<delayLoop public="1" set="method" line="126">
 			<f a="interval">
 				<x path="Float"/>
 				<c path="awe.util.Timer"/>
@@ -1792,8 +1792,8 @@
 		@param interval The interval to run the systems at (in seconds).
 		@return The timer that has been created to run this.</haxe_doc>
 		</delayLoop>
-		<loop public="1" set="method" line="130"><f a=""><x path="Void"/></f></loop>
-		<new public="1" set="method" line="49">
+		<loop public="1" set="method" line="131"><f a=""><x path="Void"/></f></loop>
+		<new public="1" set="method" line="50">
 			<f a="components:systems:managers:injector">
 				<x path="Map">
 					<x path="awe.ComponentType"/>
@@ -1805,6 +1805,7 @@
 				<x path="Void"/>
 			</f>
 			<haxe_doc>Construct a new engine.
+		Note: `Engine.build` should be preferred.
 		@param components The component lists for each type of `Component`.
 		@param systems The systems to run.
 		@param injector This is used to inject the `IComponentList` into the `System`s.</haxe_doc>
@@ -2100,7 +2101,7 @@
 	<c path="String"/>
 	<x path="awe.util.Bag"><x path="awe.Entity"/></x>
 </x></groups>
-		<add public="1" set="method" line="18">
+		<add public="1" set="method" line="21">
 			<f a="entity:group">
 				<x path="awe.Entity"/>
 				<c path="String"/>
@@ -2110,11 +2111,16 @@
 		@param entity The entity whose group is being set.
 		@param group The group to set the entity to.</haxe_doc>
 		</add>
-		<getEntities public="1" get="inline" set="null" line="23"><f a="group">
-	<c path="String"/>
-	<x path="awe.util.Bag"><x path="awe.Entity"/></x>
-</f></getEntities>
-		<getGroups public="1" set="method" line="31">
+		<getEntities public="1" get="inline" set="null" line="31">
+			<f a="group">
+				<c path="String"/>
+				<x path="awe.util.Bag"><x path="awe.Entity"/></x>
+			</f>
+			<haxe_doc>Get the entities contained in a given group.
+		@param group The group to check.
+		@return The entities.</haxe_doc>
+		</getEntities>
+		<getGroups public="1" set="method" line="39">
 			<f a="entity">
 				<x path="awe.Entity"/>
 				<x path="awe.util.Bag"><c path="String"/></x>
@@ -2123,7 +2129,7 @@
 		@param entity The entity to get the groups of.
 		@return The groups it belongs to.</haxe_doc>
 		</getGroups>
-		<isInGroup public="1" get="inline" set="null" line="45">
+		<isInGroup public="1" get="inline" set="null" line="53">
 			<f a="entity:group">
 				<x path="awe.Entity"/>
 				<c path="String"/>
@@ -2134,7 +2140,7 @@
 		@param group The group to check the ntity is contained in.
 		@return If the entity is in the group.</haxe_doc>
 		</isInGroup>
-		<remove public="1" get="inline" set="null" line="53">
+		<remove public="1" get="inline" set="null" line="61">
 			<f a="entity:group">
 				<x path="awe.Entity"/>
 				<c path="String"/>
@@ -2144,7 +2150,7 @@
 		@param entity The entity to remove from the group.
 		@param group The group to remove the entity from.</haxe_doc>
 		</remove>
-		<removeGroup public="1" get="inline" set="null" line="60">
+		<removeGroup public="1" get="inline" set="null" line="68">
 			<f a="group">
 				<c path="String"/>
 				<x path="Void"/>
@@ -2152,7 +2158,8 @@
 			<haxe_doc>Completely remove the group.
 		@param group The group to remove.</haxe_doc>
 		</removeGroup>
-		<new public="1" set="method" line="9"><f a=""><x path="Void"/></f></new>
+		<new public="1" set="method" line="12"><f a=""><x path="Void"/></f></new>
+		<haxe_doc>Handles entity grouping.</haxe_doc>
 	</class>
 	<abstract path="awe.util.Bag" params="T" file="src/awe/util/Bag.hx">
 		<from>

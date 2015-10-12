@@ -3,6 +3,9 @@ package awe.managers;
 import awe.util.Bag;
 import awe.Manager;
 
+/**
+	Handles entity grouping.
+**/
 class GroupManager extends Manager {
 	var groups: Map<String, Bag<Entity>>;
 
@@ -20,6 +23,11 @@ class GroupManager extends Manager {
 			groups.set(group, new Bag(8));
 		groups.get(group).add(entity);
 	}
+	/**
+		Get the entities contained in a given group.
+		@param group The group to check.
+		@return The entities.
+	**/
 	public inline function getEntities(group: String): Bag<Entity>
 		return groups.get(group);
 
