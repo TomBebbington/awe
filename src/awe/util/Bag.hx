@@ -20,11 +20,21 @@ abstract Bag<T>(BagData<T>) {
 	public inline function new(capacity:Int = 16)
 		this = new BagData<T>(capacity);
 
-	inline function get_capacity()
-		return this.data.length;
+	inline function get_capacity() {
+		#if java
+			return this.size();
+		#else
+			return this.data.length;
+		#end
+	}
 
-	inline function get_length()
-		return this.length;
+	inline function get_length() {
+		#if java
+			return this.size();
+		#else
+			return this.length;
+		#end
+	}
 
 	/** Clear this of items. **/
 	public inline function clear():Void
@@ -79,27 +89,62 @@ abstract Bag<T>(BagData<T>) {
 		Remove the last item from this bag.
 		@return The ex-last item.
 	**/
-	public inline function removeLast(): Null<T>
-		return this.removeLast();
+	public inline function removeLast(): Null<T> {
+		#if java
+			return this.remove(length - 1);
+		#else
+			return this.removeLast();
+		#end
+	}
 
 	/**
 		Copy the elements from `srcPos` terminating at `srcPos + len` to `dest` at the offset `destPos`
 	**/
-	public inline function blit(srcPos: Int, dest: Bag<T>, destPos: Int, len: Int)
-		this.blit(srcPos, cast dest, destPos, len);
+	public inline function blit(srcPos: Int, dest: Bag<T>, destPos: Int, len: Int) {
+		#if java
+			var dest: java.util.ArrayList<T> = cast dest;
+			dest.addAll(destPos, this.subList(srcPos, srcPos + len));
+		#else
+			this.blit(srcPos, cast dest, destPos, len);
+		#end
+	}
 
 	@:from public static inline function fromVector<T>(vector: Vector<T>) {
-		var data = Type.createEmptyInstance(BagData);
-		untyped data.data = vector;
-		untyped data.length = vector.length;
-		return cast data;
+		#if java
+			var list = new java.util.ArrayList(vector.length);
+			for(item in vector)
+				list.add(item);
+			return cast list;
+		#else
+			var data = Type.createEmptyInstance(BagData);
+			untyped data.data = vector;
+			untyped data.length = vector.length;
+			return cast data;
+		#end
 	}
-	@:from public static function fromArray<T>(array: Array<T>)
-		return fromVector(Vector.fromArrayCopy(array));
+	@:from public static function fromArray<T>(array: Array<T>) {
+		#if java
+			var list = new java.util.ArrayList(array.length);
+			for(item in array)
+				list.add(item);
+			return cast list;
+		#else
+			return fromVector(Vector.fromArrayCopy(array));
+		#end
+	}
 
 	@:to public inline function toArray(): Array<T>
-		return this.data.toArray();
+		#if java
+			return java.Lib.array(this.toArray(new java.NativeArray(this.size())));
+		#else
+			return this.data.toArray();
+		#end
 }
+
+#if java
+typedef BagData<T> = java.util.ArrayList<T>;
+typedef BagIterator<T> = java.util.Iterator<T>;
+#else
 @:generic
 class BagData<T> {
 	public var data(default, null):Vector<T>;
@@ -191,3 +236,4 @@ class BagIterator<T> {
 	public inline function next():T
 		return bag.get(index++);
 }
+#end

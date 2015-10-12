@@ -1,0 +1,10 @@
+-lib awe
+-main Main
+-java java
+-dce full
+--next
+-lib awe
+-main Main
+-neko bag.n
+-dce full
+-cmd neko bag.n

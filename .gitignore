@@ -2,3 +2,6 @@
 *.n
 target/*
 target
+examples/bag/bag.n
+examples/bag/java
+examples/pong/build
