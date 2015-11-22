@@ -1,11 +1,13 @@
-# Awe
+Awe
+===
 
 Awe is a powerful, fast and simple entity component system based on Artemis. In
 an entity component system, every thing in the world is represented by an int,
 which is called an entity id. You can then attach data to these entities and run
 system on entities with a selection of components.
 
-## Making the `Engine`
+Making the `Engine`
+-------------------
 
 The `Engine` is the what encapsulates all the components and systems contained in
 the project. To construct it, you call `Engine.build(...)` with the entities and
@@ -17,7 +19,8 @@ var engine = Engine.build({
 	components: [Input, Position, Velocity, Acceleration, Gravity, Follow]
 });
 ```
-## Making Entities
+Making Entities
+---------------
 
 An `Entity` represents a single thing in the `Engine`. To construct this, you need to
 construct an `Archetype` by calling `Archetype.build(...)` with the components that
@@ -28,10 +31,11 @@ var playerArchetype = Archetype.build(Input, Position, Velocity, Acceleration, G
 var player = playerArchetype.build();
 ```
 
-## Types of component
-## @Packed
+Types of component
+------------------
+### @Packed
 This is a component that can be represented by bytes, thus doesn't have any fields whose type is not primitve.
-## @Empty
+### @Empty
 This is a component that is used for marking components and has no fields.
-## Regular
+### Regular
 This is just a regular component.
